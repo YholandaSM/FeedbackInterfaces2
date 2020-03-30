@@ -29,7 +29,8 @@ public  String consulta = "SELECT concat(cli.nombre,' ',cli.apellidos)as cliente
             + " where nombre=?";
     
     
-    
+    public static String INSERTAR="insert into incidencias (descripcion,fecha,"
+            + "idCliente,idSeccion,idEstado,importe) values(?,?,?,?,?,?)";
     
 
 }

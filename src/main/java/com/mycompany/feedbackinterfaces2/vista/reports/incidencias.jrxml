@@ -11,7 +11,7 @@
 	<parameter name="fechaDesde" class="java.util.Date"/>
 	<parameter name="fechaHasta" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[Select inc.idIncidencia,inc.descripcion,sec.nombre as seccion, concat(est.codigo, est.descripcion) as estado,IMPORTE, concat(cli.nombre,cli.apellidos) as cli 
+		<![CDATA[Select inc.idIncidencia,inc.descripcion,sec.nombre as seccion, concat(est.codigo, est.descripcion) as estado,IMPORTE, concat(cli.nombre,cli.apellidos) as cliente 
 
 	 from clientes cli,incidencias inc,estado est,secciones sec
 	where inc.idCliente=cli.idCliente
@@ -20,8 +20,10 @@
 and inc.idCliente=coalesce( $P{cliente},inc.idCliente)
 and inc.idEstado=coalesce($P{estado},inc.idEstado)
 and inc.idSeccion=coalesce($P{seccion},inc.idSeccion)
-and fecha between coalesce($P{fechaDesde},fecha) and coalesce($P{fechaHasta},fecha)
-	ORDER BY CLI,inc.idIncidencia]]>
+and fecha >= coalesce($P{fechaDesde},fecha)
+and fecha<=coalesce($P{fechaHasta},fecha)
+
+	ORDER BY cliente,inc.idIncidencia]]>
 	</queryString>
 	<field name="idIncidencia" class="java.lang.Integer">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -34,7 +36,7 @@ and fecha between coalesce($P{fechaDesde},fecha) and coalesce($P{fechaHasta},fec
 	<field name="IMPORTE" class="java.lang.Float">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="cli" class="java.lang.String"/>
+	<field name="cliente" class="java.lang.String"/>
 	<variable name="total" class="java.lang.Float" calculation="Sum">
 		<variableExpression><![CDATA[$F{IMPORTE}]]></variableExpression>
 	</variable>

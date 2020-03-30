@@ -5,6 +5,7 @@
  */
 package com.mycompany.feedbackinterfaces2.controlador;
 
+import com.mycompany.feedbackinterfaces2.modelo.Incidencia;
 import com.mycompany.feedbackinterfaces2.modelo.conexion.ConexionMySql;
 import java.sql.Connection;
 import java.sql.Date;
@@ -34,12 +35,14 @@ public class Funciones {
         int contCliente = 0;
         int contseccion = 0;
         int contEstado = 0;
-       
+        int contFecDesde = 0;
+        int contFecHasta = 0;
+
         //Nos conectamos  a la BBDD
         ConexionMySql con = new ConexionMySql();
         Connection conex = con.conectar();
         PreparedStatement ps = null;
-        
+
         //Construimosmla consulta según los parámetros que nos llegan
         if (cliente != null) {
             sentencias.consulta += " and  inc.idCliente=?";
@@ -58,18 +61,21 @@ public class Funciones {
             contEstado = contador;
 
         }
-        if (fechaDesde != null && fechaHasta != null) {
-            sentencias.consulta += " and fecha between ? and ?";
-        } else if (fechaDesde != null && fechaDesde == null) {
-            sentencias.consulta += " and fecha>= ?";
-
-        } else if (fechaDesde == null && fechaDesde != null) {
-
-            sentencias.consulta += " and fecha<= ?";
+        if (fechaDesde != null) {
+            sentencias.consulta += " and fecha >=?";
+            contador++;
+            contFecDesde = contador;
         }
+
+        if (fechaHasta != null) {
+            sentencias.consulta += " and fecha<= ?";
+            contador++;
+            contFecHasta = contador;
+
+        }
+        sentencias.consulta += " order by cliente,inc.idIncidencia";
         ps = conex.prepareStatement(sentencias.consulta);
-        
-        
+
         //Asignamos el número de parámetro
         if (cliente != null) {
             ps.setInt(contCliente, cliente);
@@ -81,10 +87,10 @@ public class Funciones {
             ps.setInt(contEstado, estado);
         }
         if (fechaDesde != null) {
-            ps.setDate(4, fechaDesde);
+            ps.setDate(contFecDesde, fechaDesde);
         }
         if (fechaHasta != null) {
-            ps.setDate(5, fechaHasta);
+            ps.setDate(contFecHasta, fechaHasta);
         }
 
         ResultSet rsDatos = ps.executeQuery();
@@ -188,6 +194,28 @@ public class Funciones {
     public static java.sql.Date convert(java.util.Date uDate) {
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
+    }
+
+    public static void insertar(Incidencia inc) throws SQLException {
+
+        ConexionMySql con = new ConexionMySql();
+        Connection conex = con.conectar();
+
+        PreparedStatement ps = conex.prepareStatement(SentenciasSql.INSERTAR);
+        ps.setString(1, inc.getDescripcion());
+        ps.setDate(2, inc.getFecha());
+        ps.setInt(3, inc.getIdCliente());
+        ps.setInt(4, inc.getIdSeccion());
+        ps.setInt(5, inc.getIdEstado());
+        ps.setFloat(6, inc.getImporte());
+
+        //Ejecutamos la sentencia
+        int filas;
+        filas = ps.executeUpdate();
+        System.out.println("Se ha insertado la incidencia " + inc);
+        ps.close();
+        conex.close();
+
     }
 
 }
