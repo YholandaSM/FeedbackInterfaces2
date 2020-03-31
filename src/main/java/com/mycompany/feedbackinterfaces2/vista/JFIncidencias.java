@@ -6,25 +6,27 @@
 package com.mycompany.feedbackinterfaces2.vista;
 
 import com.mycompany.feedbackinterfaces2.controlador.Funciones;
+import com.mycompany.feedbackinterfaces2.modelo.Incidencia;
 import com.mycompany.feedbackinterfaces2.modelo.conexion.ConexionMySql;
 import com.mysql.jdbc.Connection;
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -73,7 +75,7 @@ public class JFIncidencias extends javax.swing.JFrame {
         jButtonPdf = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableIncidencias = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        jBGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,6 +110,7 @@ public class JFIncidencias extends javax.swing.JFrame {
         });
 
         jBInsertar.setText("INSERTAR");
+        jBInsertar.setEnabled(false);
         jBInsertar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBInsertarActionPerformed(evt);
@@ -115,6 +118,12 @@ public class JFIncidencias extends javax.swing.JFrame {
         });
 
         jBEliminar.setText("ELIMINAR");
+        jBEliminar.setEnabled(false);
+        jBEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarActionPerformed(evt);
+            }
+        });
 
         jButtonPdf.setText("Informe");
         jButtonPdf.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +150,7 @@ public class JFIncidencias extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Float.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 true, false, true, true, true, true, true
@@ -156,11 +165,15 @@ public class JFIncidencias extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(jTableIncidencias);
+        if (jTableIncidencias.getColumnModel().getColumnCount() > 0) {
+            jTableIncidencias.getColumnModel().getColumn(1).setResizable(false);
+        }
 
-        jButton2.setText("Guardar ");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jBGuardar.setText("Guardar ");
+        jBGuardar.setEnabled(false);
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jBGuardarActionPerformed(evt);
             }
         });
 
@@ -172,7 +185,7 @@ public class JFIncidencias extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(jBGuardar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -250,7 +263,7 @@ public class JFIncidencias extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addComponent(jButton2)
+                .addComponent(jBGuardar)
                 .addContainerGap())
         );
 
@@ -298,12 +311,18 @@ public class JFIncidencias extends javax.swing.JFrame {
     }//GEN-LAST:event_jCEstadoActionPerformed
 
     private void jBInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBInsertarActionPerformed
+        accion = 1;
         insertarIncidencia();
+        jBGuardar.setEnabled(true);
     }//GEN-LAST:event_jBInsertarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+        guardarCambios();   // TODO add your handling code here:
+    }//GEN-LAST:event_jBGuardarActionPerformed
+
+    private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+        eliminarIncidencia();
+    }//GEN-LAST:event_jBEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -411,10 +430,35 @@ public class JFIncidencias extends javax.swing.JFrame {
      */
     public void mostrarIncidencias() {
 
-          modelo = new DefaultTableModel();
+        //Sólo se podrá seleccionar una fila en la tabla
+        jTableIncidencias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        //Una vez seleccionada una fila, se habilitará el botón ELIMINAR
+        jTableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int cuentaFilasSeleccionadas = jTableIncidencias.getSelectedRowCount();
+                if (cuentaFilasSeleccionadas == 1) {
+                    jBEliminar.setEnabled(true);
+                } else {
+                    jBEliminar.setEnabled(false);
+                }
+            }
+
+        });
+        modelo = new DefaultTableModel();
 
         try {
             txtCliente = Funciones.devolverIdCliente(jCCliente.getSelectedItem().toString());
+            //Si hay un cliente seleccionado habilitamos botón de insertar
+            if (txtCliente != null) {
+                jBInsertar.setEnabled(true);
+
+            } else {
+                jBInsertar.setEnabled(false);
+
+            }
+
             txtSeccion = Funciones.devolverIdSeccion(jCSeccion.getSelectedItem().toString());
             txtEstado = Funciones.devolverIdEstado(jCEstado.getSelectedItem().toString());
             if (rSDateDesde.getDatoFecha() != null) {
@@ -446,9 +490,17 @@ public class JFIncidencias extends javax.swing.JFrame {
                 modelo.addRow(filas);
 
             }
+
+            //1111comprobar que se ha seleccionado una fila
+            int cuentaFilasSeleccionadas = jTableIncidencias.getSelectedRowCount();
+
+            //la columna secciones es una lista desplegable
             jTableIncidencias.setModel(modelo);
             setCBSecciones(jTableIncidencias,
                     jTableIncidencias.getColumnModel().getColumn(3));
+
+            setCBEstado(jTableIncidencias,
+                    jTableIncidencias.getColumnModel().getColumn(6));
             //Limpiamos los campos de fechas
             rSDateDesde.setDatoFecha(null);
             rSDateHasta.setDatoFecha(null);
@@ -459,62 +511,136 @@ public class JFIncidencias extends javax.swing.JFrame {
         }
 
     }
-    
-    /**
-     * 
-     */
-    public void insertarIncidencia(){
-        try {
-            JComboBox comboBoxSeccion = new JComboBox();
-            ConexionMySql con = new ConexionMySql();
-            Connection c = con.conectar();
-            Statement st = c.createStatement();
-            ResultSet rs = st.executeQuery("select  nombre  from secciones");
-            comboBoxSeccion.removeAllItems();
-          
-            while (rs.next()) {
-                comboBoxSeccion.addItem(rs.getString(1));
 
-            }
-            c.close();
-            modelo.addRow(new Object[]{"1","2","3",comboBoxSeccion,"5","6","7"});
-        } catch (SQLException ex) {
-            Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     /**
-     * 
-     * @param tabla
-     * @param columna 
+     * Método que añade una fila vacía a la tabla
      */
-    public void setCBSecciones(JTable tabla,TableColumn columna){
+    public void insertarIncidencia() {
+        if (contAddRow == 0) {
+            modelo.addRow(new Object[]{jCCliente.getSelectedItem().toString(),
+                "2", "3", "Elige sección", " ", "6", "Elige estado"});
+            contAddRow++;
+            jBInsertar.setEnabled(false);
+        }
+
+    }
+
+    /**
+     *
+     * @param tabla
+     * @param columna
+     */
+    public void setCBSecciones(JTable tabla, TableColumn columna) {
         try {
-            JComboBox c=new JComboBox();
-            
+            jCBTablaSecciones = new JComboBox();
             ConexionMySql con = new ConexionMySql();
-            Connection connection= con.conectar();
+            Connection connection = con.conectar();
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("select  nombre  from secciones");
-            c.removeAllItems();
-             
+            jCBTablaSecciones.removeAllItems();
+
             while (rs.next()) {
-                c.addItem(rs.getString(1));
+                jCBTablaSecciones.addItem(rs.getString(1));
 
             }
             connection.close();
-            
-            
-            columna.setCellEditor(new DefaultCellEditor(c));
-            DefaultTableCellRenderer renderer= new DefaultTableCellRenderer();
+
+            columna.setCellEditor(new DefaultCellEditor(jCBTablaSecciones));
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             columna.setCellRenderer(renderer);
         } catch (SQLException ex) {
             Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
+    public void setCBEstado(JTable tabla, TableColumn columna) {
+        try {
+            jCBTablaEstado = new JComboBox();
+            ConexionMySql con = new ConexionMySql();
+            Connection connection = con.conectar();
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("select concat(codigo,'  ',descripcion) as estado  from estado");
+            jCBTablaEstado.removeAllItems();
+
+            while (rs.next()) {
+                jCBTablaEstado.addItem(rs.getString(1));
+
+            }
+            connection.close();
+
+            columna.setCellEditor(new DefaultCellEditor(jCBTablaEstado));
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            columna.setCellRenderer(renderer);
+        } catch (SQLException ex) {
+            Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    /**
+     * Método que elimina la fila seleccionada de la tabla
+     */
+    public void eliminarIncidencia() {
+
+        int fila = jTableIncidencias.getSelectedRow();
+        Integer id = (Integer) modelo.getValueAt(fila, modelo.findColumn("Id"));
+
+        String seccion = jCBTablaSecciones.getSelectedItem().toString();
+
+        if (Funciones.eliminarIncidencia(id)) {;
+            JOptionPane.showMessageDialog(null, "Incidencia eliminada correctamente");
+            modelo.removeRow(fila);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se ha podido eliminar la incidencia");
+
+        }
+    }
+
+    public void guardarCambios() {
+
+        //Insertar
+        if (accion == 1) {
+            try {
+                int fila = modelo.getRowCount();
+                int columna = modelo.findColumn("Cliente");
+                String cliente = (String) modelo.getValueAt(modelo.getRowCount() - 1, modelo.findColumn("Cliente"));
+                String descripcion = (String) modelo.getValueAt(modelo.getRowCount() - 1, modelo.findColumn("Descripción"));
+                String seccion = jCBTablaSecciones.getSelectedItem().toString();
+                String fecha = (String) modelo.getValueAt(modelo.getRowCount() - 1, modelo.findColumn("Fecha"));
+                String importe = (String) modelo.getValueAt(modelo.getRowCount() - 1, modelo.findColumn("Importe"));
+                String estado = jCBTablaEstado.getSelectedItem().toString();
+
+                Incidencia inc = new Incidencia(descripcion,
+                        Funciones.convertirStringAFecha(fecha),
+                        Funciones.devolverIdCliente(cliente),
+                        Funciones.devolverIdSeccion(seccion),
+                        Funciones.devolverIdEstado(estado),
+                        Float.parseFloat(importe));
+                if (Funciones.insertar(inc)) {
+                    //Inicializamos variables
+                    jBInsertar.setEnabled(true);
+                    contAddRow = 0;
+                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se ha podido guardar la incidencia");
+                }
+
+            } catch (ParseException ex) {
+                System.out.println("ParseException " + ex.getMessage());
+                 JOptionPane.showMessageDialog(null, "No se ha podido guardar la incidencia");
+            } catch (SQLException ex) {
+                Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    //Campo desplegable secciones de la tabla
+    JComboBox jCBTablaSecciones;
+    JComboBox jCBTablaEstado;
+
     //Tabla
-     DefaultTableModel modelo;
+    DefaultTableModel modelo;
 
     //Valores recogidos en las listas desplegables
     Integer txtCliente = 0;
@@ -527,11 +653,17 @@ public class JFIncidencias extends javax.swing.JFrame {
     ConexionMySql con = new ConexionMySql();
     Connection c = con.conectar();
 
+    //Actualizar, modificar o eliminar
+    int accion = 0;
+
+    //Contador para controlar que sólo se añade una fila a la tabla,
+    //cuando se pulsa el botón AÑADIR
+    int contAddRow = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBBuscar;
     private javax.swing.JButton jBEliminar;
+    private javax.swing.JButton jBGuardar;
     private javax.swing.JButton jBInsertar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonPdf;
     private javax.swing.JComboBox<String> jCCliente;
     private javax.swing.JComboBox<String> jCEstado;
