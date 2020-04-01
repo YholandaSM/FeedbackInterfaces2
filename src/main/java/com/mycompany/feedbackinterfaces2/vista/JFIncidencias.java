@@ -546,12 +546,10 @@ public class JFIncidencias extends javax.swing.JFrame {
             //evento que detecta la modificación de una columa, recoge los 
             //nuevos datos introducidos por el usuario y, con ellos
             //modifica en BBDD
-            
-           
-              modelo.addTableModelListener(new TableModelListener() {
+            modelo.addTableModelListener(new TableModelListener() {
                 @Override
                 public void tableChanged(TableModelEvent e) {
-                    if (e.getType() == TableModelEvent.UPDATE && accion!=INSERTAR) {
+                    if (e.getType() == TableModelEvent.UPDATE && accion != INSERTAR) {
                         int columna = e.getColumn();
                         int fila = e.getFirstRow();
                         if (columna == 2) {
@@ -573,12 +571,11 @@ public class JFIncidencias extends javax.swing.JFrame {
                         idAmodificar = (Integer) jTableIncidencias.getValueAt(fila, 1);
                         accion = MODIFICAR;
                         jBGuardar.setEnabled(true);
-                    }  
+                    }
 
                 }
             });
-            
-            
+
             //fin 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -709,13 +706,24 @@ public class JFIncidencias extends javax.swing.JFrame {
         } else if (accion == MODIFICAR) {
 
             try {
-                Incidencia inc = new Incidencia();
-                inc.setIdIncidencia(idAmodificar);
-                inc.setDescripcion(nuevaDes);
-                inc.setFecha((Date) Funciones.ParseFecha(nuevaFecha));
-                inc.setImporte(Float.parseFloat(nuevoImporte));
-                inc.setIdEstado(devolverIdEstado(nuevoEstado));
-                inc.setIdSeccion(devolverIdSeccion(nuevaSeccion));
+                //1obtenemos la incidencia a modificar
+                Incidencia inc = Funciones.buscaIncidenciaPorId(idAmodificar);
+                //Cambiamos a los nuevos valores
+                if (nuevaDes != null) {
+                    inc.setDescripcion(nuevaDes);
+                }
+                if (nuevaFecha != null) {
+                    inc.setFecha((Date) Funciones.ParseFecha(nuevaFecha));
+                }
+                if (nuevoImporte != null) {
+                    inc.setImporte(Float.parseFloat(nuevoImporte));
+                }
+                if (nuevoEstado != null) {
+                    inc.setIdEstado(devolverIdEstado(nuevoEstado));
+                }
+                if (nuevaSeccion != null) {
+                    inc.setIdSeccion(devolverIdSeccion(nuevaSeccion));
+                }
 
                 if (Funciones.modificarIncidencia(inc)) {
                     JOptionPane.showMessageDialog(null, "Se ha modificado correctamente");

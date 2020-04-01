@@ -41,6 +41,8 @@ public  String consulta = "SELECT concat(cli.nombre,' ',cli.apellidos)as cliente
             + " idEstado=?,"
             + " importe=?"
             + " where idIncidencia=?";
+    
+    public static String BUSCAINCIDENCIAPORID="select * from incidencias where idIncidencia=?";
      
     
 

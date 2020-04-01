@@ -299,24 +299,58 @@ public class Funciones {
         java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
         return sqlStartDate;
     }
-    
+
     /**
      * Permite convertir un String en fecha (Date).
+     *
      * @param fecha Cadena de fecha dd/MM/yyyy
      * @return Objeto Date
      */
-    public static java.util.Date ParseFecha(String fecha)
-    {
+    public static java.util.Date ParseFecha(String fecha) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date fechaDate = null;
         try {
             fechaDate = (Date) formato.parse(fecha);
-        } 
-        catch (ParseException ex) 
-        {
+        } catch (ParseException ex) {
             System.out.println(ex);
         }
         return fechaDate;
+    }
+
+    public static Incidencia buscaIncidenciaPorId(int id) {
+        Incidencia inc = null;
+        String desc = null;
+        Date fecha = null;
+        Integer cliente = null;
+        Integer seccion = null;
+        Integer estado = null;
+        Float importe = null;
+        try {
+            ConexionMySql con = new ConexionMySql();
+            Connection conex = con.conectar();
+
+            PreparedStatement ps = conex.prepareStatement(SentenciasSql.BUSCAINCIDENCIAPORID);
+            ps.setInt(1, id);
+
+            //Ejecutamos la sentencia
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                desc = rs.getString(2);
+                fecha = rs.getDate(3);
+                cliente = rs.getInt(4);
+                seccion = rs.getInt(5);
+                estado = rs.getInt(6);
+                importe = rs.getFloat(7);
+            }
+            inc = new Incidencia(id, desc, fecha, cliente, seccion, estado, importe);
+            ps.close();
+            conex.close();
+
+        } catch (SQLException ex) {
+          System.out.println("Error al buscar incidencia por id "+ex.getMessage());
+        }
+        return inc;
     }
 
 }
