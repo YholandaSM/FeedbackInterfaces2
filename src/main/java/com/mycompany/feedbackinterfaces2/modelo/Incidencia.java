@@ -8,7 +8,7 @@ import java.sql.Date;
  */
 public class Incidencia {
 
-    private int incidencia;
+    private int idIncidencia;
     private String descripcion;
     private Date fecha;
     private int idCliente;
@@ -19,8 +19,8 @@ public class Incidencia {
     public Incidencia() {
     }
 
-    public Incidencia(int incidencia, String descripcion, Date fecha, int idCliente, int idSeccion, int idEstado, float importe) {
-        this.incidencia = incidencia;
+    public Incidencia(int idIncidencia, String descripcion, Date fecha, int idCliente, int idSeccion, int idEstado, float importe) {
+        this.idIncidencia = idIncidencia;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.idCliente = idCliente;
@@ -29,12 +29,25 @@ public class Incidencia {
         this.importe = importe;
     }
 
-    public int getIncidencia() {
-        return incidencia;
+    public Incidencia(String descripcion, Date fecha, int idCliente, int idSeccion, int idEstado, float importe) {
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.idCliente = idCliente;
+        this.idSeccion = idSeccion;
+        this.idEstado = idEstado;
+        this.importe = importe;
     }
 
-    public void setIncidencia(int incidencia) {
-        this.incidencia = incidencia;
+    
+    
+    
+
+    public int getIdIncidencia() {
+        return idIncidencia;
+    }
+
+    public void setIdIncidencia(int idIncidencia) {
+        this.idIncidencia = idIncidencia;
     }
 
     public String getDescripcion() {
@@ -87,7 +100,7 @@ public class Incidencia {
 
     @Override
     public String toString() {
-        return "Incidencia{" + "incidencia=" + incidencia + ", descripcion=" + descripcion + ", fecha=" + fecha + ", idCliente=" + idCliente + ", idSeccion=" + idSeccion + ", idEstado=" + idEstado + ", impote=" + importe + '}';
+        return "Incidencia{" + "incidencia=" + idIncidencia + ", descripcion=" + descripcion + ", fecha=" + fecha + ", idCliente=" + idCliente + ", idSeccion=" + idSeccion + ", idEstado=" + idEstado + ", impote=" + importe + '}';
     }
     
     

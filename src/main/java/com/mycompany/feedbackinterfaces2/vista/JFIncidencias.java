@@ -6,9 +6,12 @@
 package com.mycompany.feedbackinterfaces2.vista;
 
 import com.mycompany.feedbackinterfaces2.controlador.Funciones;
+import static com.mycompany.feedbackinterfaces2.controlador.Funciones.devolverIdEstado;
+import static com.mycompany.feedbackinterfaces2.controlador.Funciones.devolverIdSeccion;
 import com.mycompany.feedbackinterfaces2.modelo.Incidencia;
 import com.mycompany.feedbackinterfaces2.modelo.conexion.ConexionMySql;
 import com.mysql.jdbc.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -25,6 +28,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -429,11 +434,13 @@ public class JFIncidencias extends javax.swing.JFrame {
      * Método que rellena la jTble, una vez que se pulsa el botón BUSCAR.
      */
     public void mostrarIncidencias() {
-
-        //Sólo se podrá seleccionar una fila en la tabla
+        /**
+         * ***********CONFIGURACIONES********************
+         */
+        //1.Sólo se puede seleccionar una fila en la tabla
         jTableIncidencias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        //Una vez seleccionada una fila, se habilitará el botón ELIMINAR
+        //2.Una vez seleccionada una fila, se habilitará el botón ELIMINAR
         jTableIncidencias.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -446,9 +453,28 @@ public class JFIncidencias extends javax.swing.JFrame {
             }
 
         });
-        modelo = new DefaultTableModel();
 
+        //3.Creamos el modelo que gestionará los datos de la tabla
+        //y sobreescribimos el método isCellEditable para hacer que
+        //las columnas cliente e Id. NO sean editables
+        modelo = new DefaultTableModel() {
+            @Override
+            //Las columnas cliente e Id. NO son editables
+            public boolean isCellEditable(int row, int column) {
+                if (column == 0 || column == 1) {
+                    return false;
+                }
+                return true;
+            }
+        };
+        /**
+         * **VOLCAR DATOS A LA TABLA*************************
+         */
+        /*1.Recuperamos datos introducidos en los criterios de selección
+        por el usuario:
+         */
         try {
+            //CLIENTE
             txtCliente = Funciones.devolverIdCliente(jCCliente.getSelectedItem().toString());
             //Si hay un cliente seleccionado habilitamos botón de insertar
             if (txtCliente != null) {
@@ -458,9 +484,11 @@ public class JFIncidencias extends javax.swing.JFrame {
                 jBInsertar.setEnabled(false);
 
             }
-
+            //SECCION
             txtSeccion = Funciones.devolverIdSeccion(jCSeccion.getSelectedItem().toString());
+            //ESTADO
             txtEstado = Funciones.devolverIdEstado(jCEstado.getSelectedItem().toString());
+            //FECHA DESDE Y HASTA
             if (rSDateDesde.getDatoFecha() != null) {
                 txtFechaDesde = Funciones.convert(rSDateDesde.getDatoFecha());
             }
@@ -468,8 +496,12 @@ public class JFIncidencias extends javax.swing.JFrame {
                 txtFechaHasta = Funciones.convert(rSDateHasta.getDatoFecha());
             }
 
+            /*2.Con los datos ontroducidos por el usuario hacemos una consulta 
+            a BBDD*/
             ResultSet datos = Funciones.consultarIncidencias(txtCliente, txtSeccion, txtEstado, txtFechaDesde, txtFechaHasta);
 
+            /*3.y volcamos los datos en la tabla:*/
+            //1º Pintamos los nombres de las columnas
             ResultSetMetaData rsMd = datos.getMetaData();
             int numeroColumnas = rsMd.getColumnCount();
             modelo.addColumn("Cliente");
@@ -479,7 +511,8 @@ public class JFIncidencias extends javax.swing.JFrame {
             modelo.addColumn("Fecha");
             modelo.addColumn("Importe");
             modelo.addColumn("Estado");
-
+            //2º Rellenamos las filas de la columna con los que nos ha
+            //devuelto la consulta a BBDD
             while (datos.next()) {
                 Object[] filas = new Object[numeroColumnas];
                 for (int i = 0; i < numeroColumnas; i++) {
@@ -491,14 +524,14 @@ public class JFIncidencias extends javax.swing.JFrame {
 
             }
 
-            //1111comprobar que se ha seleccionado una fila
+            //comprobar que se ha seleccionado una fila
             int cuentaFilasSeleccionadas = jTableIncidencias.getSelectedRowCount();
 
-            //la columna secciones es una lista desplegable
+            //4.Hacemos que la columna secciones sea  una lista desplegable
             jTableIncidencias.setModel(modelo);
             setCBSecciones(jTableIncidencias,
                     jTableIncidencias.getColumnModel().getColumn(3));
-
+            //5.Hacemos que la columna estado sea  una lista desplegable
             setCBEstado(jTableIncidencias,
                     jTableIncidencias.getColumnModel().getColumn(6));
             //Limpiamos los campos de fechas
@@ -506,6 +539,47 @@ public class JFIncidencias extends javax.swing.JFrame {
             rSDateHasta.setDatoFecha(null);
             txtFechaDesde = null;
             txtFechaHasta = null;
+
+            /**
+             * ****MODIFICAR UNA FILA DE LA TABLA******************
+             */
+            //evento que detecta la modificación de una columa, recoge los 
+            //nuevos datos introducidos por el usuario y, con ellos
+            //modifica en BBDD
+            
+           
+              modelo.addTableModelListener(new TableModelListener() {
+                @Override
+                public void tableChanged(TableModelEvent e) {
+                    if (e.getType() == TableModelEvent.UPDATE && accion!=INSERTAR) {
+                        int columna = e.getColumn();
+                        int fila = e.getFirstRow();
+                        if (columna == 2) {
+                            nuevaDes = (String) jTableIncidencias.getValueAt(fila, columna);
+                        }
+                        if (columna == 3) {
+                            nuevaSeccion = (String) jTableIncidencias.getValueAt(fila, columna);
+                        }
+                        if (columna == 4) {
+                            nuevaFecha = (String) jTableIncidencias.getValueAt(fila, columna);
+                        }
+                        if (columna == 5) {
+                            nuevoImporte = (String) jTableIncidencias.getValueAt(fila, columna);
+                        }
+                        if (columna == 6) {
+                            nuevoEstado = (String) jTableIncidencias.getValueAt(fila, columna);
+                        }
+
+                        idAmodificar = (Integer) jTableIncidencias.getValueAt(fila, 1);
+                        accion = MODIFICAR;
+                        jBGuardar.setEnabled(true);
+                    }  
+
+                }
+            });
+            
+            
+            //fin 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -600,7 +674,7 @@ public class JFIncidencias extends javax.swing.JFrame {
     public void guardarCambios() {
 
         //Insertar
-        if (accion == 1) {
+        if (accion == INSERTAR) {
             try {
                 int fila = modelo.getRowCount();
                 int columna = modelo.findColumn("Cliente");
@@ -628,12 +702,38 @@ public class JFIncidencias extends javax.swing.JFrame {
 
             } catch (ParseException ex) {
                 System.out.println("ParseException " + ex.getMessage());
-                 JOptionPane.showMessageDialog(null, "No se ha podido guardar la incidencia");
+                JOptionPane.showMessageDialog(null, "No se ha podido guardar la incidencia");
             } catch (SQLException ex) {
                 Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (accion == MODIFICAR) {
+
+            try {
+                Incidencia inc = new Incidencia();
+                inc.setIdIncidencia(idAmodificar);
+                inc.setDescripcion(nuevaDes);
+                inc.setFecha((Date) Funciones.ParseFecha(nuevaFecha));
+                inc.setImporte(Float.parseFloat(nuevoImporte));
+                inc.setIdEstado(devolverIdEstado(nuevoEstado));
+                inc.setIdSeccion(devolverIdSeccion(nuevaSeccion));
+
+                if (Funciones.modificarIncidencia(inc)) {
+                    JOptionPane.showMessageDialog(null, "Se ha modificado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se  ha modificado correctamente");
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al modificar " + ex.getMessage());
+            }
         }
     }
+    //Nuevos valores a modificar
+    String nuevaDes;
+    String nuevaSeccion;
+    String nuevaFecha;
+    String nuevoImporte;
+    String nuevoEstado;
+    Integer idAmodificar;
 
     //Campo desplegable secciones de la tabla
     JComboBox jCBTablaSecciones;
@@ -655,6 +755,8 @@ public class JFIncidencias extends javax.swing.JFrame {
 
     //Actualizar, modificar o eliminar
     int accion = 0;
+    final int INSERTAR = 1;
+    final int MODIFICAR = 2;
 
     //Contador para controlar que sólo se añade una fila a la tabla,
     //cuando se pulsa el botón AÑADIR

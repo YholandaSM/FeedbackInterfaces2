@@ -32,5 +32,16 @@ public  String consulta = "SELECT concat(cli.nombre,' ',cli.apellidos)as cliente
     public static String INSERTAR="insert into incidencias (descripcion,fecha,"
             + "idCliente,idSeccion,idEstado,importe) values(?,?,?,?,?,?)";
     
+    public static String BORRAR="delete from incidencias where idIncidencia=?";
+    
+    public static String MODIFICAR="update incidencias"
+            + " set descripcion=?,"
+            + " fecha=?,"
+            + " idSeccion=?,"
+            + " idEstado=?,"
+            + " importe=?"
+            + " where idIncidencia=?";
+     
+    
 
 }

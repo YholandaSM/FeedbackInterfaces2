@@ -12,6 +12,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -196,26 +200,123 @@ public class Funciones {
         return sDate;
     }
 
-    public static void insertar(Incidencia inc) throws SQLException {
+    public static boolean insertar(Incidencia inc) {
 
-        ConexionMySql con = new ConexionMySql();
-        Connection conex = con.conectar();
+        try {
+            ConexionMySql con = new ConexionMySql();
+            Connection conex = con.conectar();
 
-        PreparedStatement ps = conex.prepareStatement(SentenciasSql.INSERTAR);
-        ps.setString(1, inc.getDescripcion());
-        ps.setDate(2, inc.getFecha());
-        ps.setInt(3, inc.getIdCliente());
-        ps.setInt(4, inc.getIdSeccion());
-        ps.setInt(5, inc.getIdEstado());
-        ps.setFloat(6, inc.getImporte());
+            PreparedStatement ps = conex.prepareStatement(SentenciasSql.INSERTAR);
+            ps.setString(1, inc.getDescripcion());
+            ps.setDate(2, inc.getFecha());
+            ps.setInt(3, inc.getIdCliente());
+            ps.setInt(4, inc.getIdSeccion());
+            ps.setInt(5, inc.getIdEstado());
+            ps.setFloat(6, inc.getImporte());
 
-        //Ejecutamos la sentencia
-        int filas;
-        filas = ps.executeUpdate();
-        System.out.println("Se ha insertado la incidencia " + inc);
-        ps.close();
-        conex.close();
+            //Ejecutamos la sentencia
+            int filas;
+            filas = ps.executeUpdate();
+            System.out.println("Se ha insertado la incidencia " + inc);
+            ps.close();
+            conex.close();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Se ha producido un error al insertar la incidencia "
+                    + inc);
+            return false;
+        }
 
+    }
+
+    /**
+     * Elimina de bbdd la incidencia cuyo id es el que se pasa por parámetro
+     *
+     * @param id
+     * @return
+     */
+    public static boolean eliminarIncidencia(Integer id) {
+        try {
+            ConexionMySql con = new ConexionMySql();
+            Connection conex = con.conectar();
+
+            PreparedStatement ps = conex.prepareStatement(SentenciasSql.BORRAR);
+            ps.setInt(1, id);
+
+            //Ejecutamos la sentencia
+            int filas;
+            filas = ps.executeUpdate();
+            System.out.println("Se ha eliminado la incidencia " + id);
+            ps.close();
+            conex.close();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Error al eliminar la incidencia "
+                    + ex.getMessage() + " " + ex.getSQLState());
+            return false;
+        }
+
+    }
+
+    /**
+     * Modifica la incidencia cuyo id es el pasado por parámetro
+     *
+     * @param id
+     * @return
+     */
+    public static boolean modificarIncidencia(Incidencia inc) {
+        try {
+            ConexionMySql con = new ConexionMySql();
+            Connection conex = con.conectar();
+
+            PreparedStatement ps = conex.prepareStatement(SentenciasSql.MODIFICAR);
+            ps.setString(1, inc.getDescripcion());
+            ps.setDate(2, inc.getFecha());
+            ps.setInt(3, inc.getIdSeccion());
+            ps.setInt(4, inc.getIdEstado());
+            ps.setFloat(5, inc.getImporte());
+            ps.setInt(6, inc.getIdIncidencia());
+
+            //Ejecutamos la sentencia
+            int filas;
+            filas = ps.executeUpdate();
+            System.out.println("Se ha modificado la incidencia " + inc);
+            ps.close();
+            conex.close();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Error al eliminar la incidencia "
+                    + ex.getMessage() + " " + ex.getSQLState());
+            return false;
+        }
+
+    }
+
+    public static java.sql.Date convertirStringAFecha(String fecha) throws ParseException {
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-mm-yyyy");
+        java.util.Date date = sdf1.parse(fecha);
+        java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+        return sqlStartDate;
+    }
+    
+    /**
+     * Permite convertir un String en fecha (Date).
+     * @param fecha Cadena de fecha dd/MM/yyyy
+     * @return Objeto Date
+     */
+    public static java.util.Date ParseFecha(String fecha)
+    {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaDate = null;
+        try {
+            fechaDate = (Date) formato.parse(fecha);
+        } 
+        catch (ParseException ex) 
+        {
+            System.out.println(ex);
+        }
+        return fechaDate;
     }
 
 }
