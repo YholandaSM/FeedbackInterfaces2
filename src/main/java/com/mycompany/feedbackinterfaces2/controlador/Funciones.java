@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -293,11 +294,16 @@ public class Funciones {
     }
 
     public static java.sql.Date convertirStringAFecha(String fecha) throws ParseException {
-
-        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-mm-yyyy");
-        java.util.Date date = sdf1.parse(fecha);
-        java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
-        return sqlStartDate;
+        java.sql.Date fecFormatoDate = null;
+        try {
+            SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", new Locale("es", "ES"));
+            fecFormatoDate = new java.sql.Date(sdf.parse(fecha).getTime());
+            System.out.println("Fecha con el formato java.sql.Date: " + fecFormatoDate);
+        } catch (Exception ex) {
+            System.out.println("Error al obtener el formato de la fecha/hora: " + ex.getMessage());
+        }
+        
+        return fecFormatoDate;
     }
 
     /**
@@ -306,7 +312,7 @@ public class Funciones {
      * @param fecha Cadena de fecha dd/MM/yyyy
      * @return Objeto Date
      */
-    public static java.util.Date ParseFecha(String fecha) {
+  /*  public static java.util.Date ParseFecha(String fecha) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date fechaDate = null;
         try {
@@ -316,7 +322,7 @@ public class Funciones {
         }
         return fechaDate;
     }
-
+*/
     public static Incidencia buscaIncidenciaPorId(int id) {
         Incidencia inc = null;
         String desc = null;
@@ -348,7 +354,7 @@ public class Funciones {
             conex.close();
 
         } catch (SQLException ex) {
-          System.out.println("Error al buscar incidencia por id "+ex.getMessage());
+            System.out.println("Error al buscar incidencia por id " + ex.getMessage());
         }
         return inc;
     }
