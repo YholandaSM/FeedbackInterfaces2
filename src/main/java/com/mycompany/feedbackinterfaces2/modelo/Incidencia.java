@@ -3,7 +3,7 @@ package com.mycompany.feedbackinterfaces2.modelo;
 import java.sql.Date;
 
 /**
- *
+ * Clase que representa la tabla incidencias en bbdd
  * @author Hp
  */
 public class Incidencia {
@@ -15,10 +15,25 @@ public class Incidencia {
     private int idSeccion;
     private int idEstado;
     private float importe;
-
+    
+    
+    /**
+     * Constructor vacío
+     */
     public Incidencia() {
     }
-
+    
+    
+    /**
+     * Constructor con todos los atributos
+     * @param idIncidencia
+     * @param descripcion
+     * @param fecha
+     * @param idCliente
+     * @param idSeccion
+     * @param idEstado
+     * @param importe 
+     */
     public Incidencia(int idIncidencia, String descripcion, Date fecha, int idCliente, int idSeccion, int idEstado, float importe) {
         this.idIncidencia = idIncidencia;
         this.descripcion = descripcion;
@@ -28,7 +43,17 @@ public class Incidencia {
         this.idEstado = idEstado;
         this.importe = importe;
     }
-
+    
+    
+    /**
+     * Constructor con varios atributos
+     * @param descripcion
+     * @param fecha
+     * @param idCliente
+     * @param idSeccion
+     * @param idEstado
+     * @param importe 
+     */
     public Incidencia(String descripcion, Date fecha, int idCliente, int idSeccion, int idEstado, float importe) {
         this.descripcion = descripcion;
         this.fecha = fecha;
@@ -41,7 +66,10 @@ public class Incidencia {
     
     
     
-
+    /**
+     * Método que devuelve el id de una incidencia
+     * @return  el id de una incidencia
+     */
     public int getIdIncidencia() {
         return idIncidencia;
     }

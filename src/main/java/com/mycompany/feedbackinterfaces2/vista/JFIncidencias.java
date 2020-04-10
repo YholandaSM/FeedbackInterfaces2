@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.feedbackinterfaces2.vista;
 
 import com.mycompany.feedbackinterfaces2.controlador.Funciones;
@@ -39,7 +34,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 /**
- *
+ * Clase que representa un formulario para gesionar(altas, bajas y modificaciones)
+ * incidencias.
+ * 
  * @author Hp
  */
 public class JFIncidencias extends javax.swing.JFrame {
@@ -284,7 +281,13 @@ public class JFIncidencias extends javax.swing.JFrame {
         mostrarIncidencias();
 
     }//GEN-LAST:event_jBBuscarActionPerformed
-
+    /**
+     * Método que define las acciones cuando se pulsa el botón Informe. 
+     * Se genera un informe jasper con la información que se haya seleccionado en el 
+     * formulario.
+     * 
+     * @param evt 
+     */
     private void jButtonPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPdfActionPerformed
         //http://www.laurafolgado.es/desarrollointerfaces/2017/02/incluir-informes-jasper-en-un-proyecto-de-java-swing/
         try {
@@ -296,18 +299,13 @@ public class JFIncidencias extends javax.swing.JFrame {
             parameters.put("estado", txtEstado);
             parameters.put("fechaDesde", txtFechaDesde);
             parameters.put("fechaHasta", txtFechaHasta);
-            //1.Obtenemos la conexión
+          
 
-            //2.Obtenemos el objeto JasperPrint
+            //1.Obtenemos el objeto JasperPrint
             JasperPrint jasperPrint
                     = JasperFillManager.fillReport("./src/main/java/com/mycompany/feedbackinterfaces2/vista/reports/incidencias.jasper", parameters, c);
             JasperViewer viewer = new JasperViewer(jasperPrint, false);
-            //3.Realizamos la exportación a formato pdf
-            //   JasperExportManager
-            //  .exportReportToPdfFile(jasperPrint, "./src/main/java/com/mycompany/feedbackinterfaces2/reports/incidencias.pdf");
-            //   File path = new File ("./src/main/java/com/mycompany/feedbackinterfaces2/reports/incidencias.pdf");
-            //  Desktop.getDesktop().open(path);
-
+          
             viewer.setVisible(true);
             viewer.setTitle("Informe Incidencias");
 
@@ -335,6 +333,7 @@ public class JFIncidencias extends javax.swing.JFrame {
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     /**
+     * Método principal
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -370,10 +369,8 @@ public class JFIncidencias extends javax.swing.JFrame {
     }
 
     /**
-     * Cargamos la lista desplegable de clientes con los datos que hay en la
+     * Método que carga  la lista desplegable de clientes con los datos que hay en la
      * BBDD en la tabla clientes.
-     *
-     * @param clientes
      */
     public void cargarComboboxClientes() {
         try {
@@ -395,7 +392,8 @@ public class JFIncidencias extends javax.swing.JFrame {
     }
 
     /**
-     *
+     * Método que carga  la lista desplegable de secciones con los datos que hay en la
+     * BBDD en la tabla secciones.
      */
     public void cargarComboboxSecciones() {
         try {
@@ -415,7 +413,10 @@ public class JFIncidencias extends javax.swing.JFrame {
         }
 
     }
-
+    /**
+     * Método que carga  la lista desplegable de estados con los datos que hay en la
+     * BBDD en la tabla estados.
+     */
     public void cargarComboboxEstado() {
         try {
             ConexionMySql con = new ConexionMySql();
@@ -596,7 +597,7 @@ public class JFIncidencias extends javax.swing.JFrame {
     public void insertarIncidencia() {
         if (contAddRow == 0) {
             modelo.addRow(new Object[]{jCCliente.getSelectedItem().toString(),
-                "2", "3", "Elige sección", " ", "6", "Elige estado"});
+                "", "", "Elige sección", " ", "", "Elige estado"});
             contAddRow++;
             jBInsertar.setEnabled(false);
         }
@@ -604,7 +605,7 @@ public class JFIncidencias extends javax.swing.JFrame {
     }
 
     /**
-     *
+     * Método que convierte la columna secciones de la jTable en una lista desplegable.
      * @param tabla
      * @param columna
      */
@@ -631,7 +632,12 @@ public class JFIncidencias extends javax.swing.JFrame {
         }
 
     }
-
+    /**
+     * Método que convierte la columna estado de la jTable en una lista desplegable.
+     * 
+     * @param tabla
+     * @param columna 
+     */
     public void setCBEstado(JTable tabla, TableColumn columna) {
         try {
             jCBTablaEstado = new JComboBox();
@@ -674,7 +680,11 @@ public class JFIncidencias extends javax.swing.JFrame {
 
         }
     }
-
+    
+    /**
+     * Método que guarda en bbdd la inserción o la modificación de una fila 
+     * en la jTable.
+     */
     public void guardarCambios() {
 
         //Insertar

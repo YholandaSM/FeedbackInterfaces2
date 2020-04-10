@@ -236,7 +236,11 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="41" splitType="Stretch"/>
+		<band height="41" splitType="Stretch">
+			<line>
+				<reportElement x="2" y="40" width="550" height="1" uuid="00439dd0-bb35-41b5-84ef-88bb72ccdc69"/>
+			</line>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">

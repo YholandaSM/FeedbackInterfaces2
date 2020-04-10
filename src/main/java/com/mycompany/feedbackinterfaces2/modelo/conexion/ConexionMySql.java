@@ -14,7 +14,11 @@ public class ConexionMySql {
     private final String usuario;
     private final String password;
     private final String path;
-
+    
+    
+    /**
+     * Constructor con el usuario, la contraseña y la cadena de conexión
+     */
     public ConexionMySql() {
 
         usuario = "root";
@@ -25,7 +29,7 @@ public class ConexionMySql {
     /**
      * Método que conecta a la BBDD
      *
-     * @return
+     * @return Devuelve un objeto Connection
      */
     public Connection conectar() {
 

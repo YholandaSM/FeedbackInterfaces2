@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.feedbackinterfaces2.controlador;
 
 import com.mycompany.feedbackinterfaces2.modelo.Incidencia;
@@ -15,10 +10,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
+ * Clase con métodos que realizan alguna operación en bbdd.
  *
  * @author Hp
  */
@@ -27,15 +21,30 @@ public class Funciones {
     ConexionMySql conexionMySql = new ConexionMySql();
     Connection con = conexionMySql.conectar();
 
+    /**
+     * Constructor vacío
+     */
     public void insertarIncidencia() {
 
     }
 
+    /**
+     * Método que realiza una consulta a bbdd y devuelve un listado de
+     * incidencias, en función de los parámetros informados .
+     *
+     * @param cliente
+     * @param seccion
+     * @param estado
+     * @param fechaDesde
+     * @param fechaHasta
+     * @return Listado de incidencias
+     * @throws SQLException
+     */
     public static ResultSet consultarIncidencias(Integer cliente, Integer seccion, Integer estado,
             Date fechaDesde, Date fechaHasta
     ) throws SQLException {
         SentenciasSql sentencias = new SentenciasSql();
-        //contadores para calcularvel número de parámetro
+        //contadores para calcular el número de parámetro
         int contador = 0;
         int contCliente = 0;
         int contseccion = 0;
@@ -99,15 +108,19 @@ public class Funciones {
         }
 
         ResultSet rsDatos = ps.executeQuery();
+        rsDatos.close();
+        conex.close();
 
         return rsDatos;
 
     }
 
     /**
+     * Método que consulta un cliente a la bbdd pasándole como parámetro el
+     * nombre
      *
      * @param nombreCompleto
-     * @return
+     * @return Devuelve el id del cliente
      * @throws SQLException
      */
     public static Integer devolverIdCliente(String nombreCompleto) throws SQLException {
@@ -132,15 +145,20 @@ public class Funciones {
                 idCliente = rsDatos.getInt(1);
 
             }
+
+            rsDatos.close();
+            conex.close();
             return idCliente;
         }
 
     }
 
     /**
+     * Método que consulta un estado a la bbdd pasándole como parámetro el
+     * nombre
      *
      * @param estado
-     * @return
+     * @return Devuelve el identificador del estado
      */
     public static Integer devolverIdEstado(String estado) throws SQLException {
 
@@ -159,15 +177,20 @@ public class Funciones {
             if (rsDatos.next()) {
                 idEstado = rsDatos.getInt(1);
             }
+
+            rsDatos.close();
+            conex.close();
             return idEstado;
         }
 
     }
 
     /**
+     * Método que consulta una sección a la bbdd pasándole como parámetro el
+     * nombre
      *
      * @param seccion
-     * @return
+     * @return Devuelve del identificador de la sección
      * @throws SQLException
      */
     public static Integer devolverIdSeccion(String seccion) throws SQLException {
@@ -186,21 +209,33 @@ public class Funciones {
             if (rsDatos.next()) {
                 idSeccion = rsDatos.getInt(1);
             }
+
+            rsDatos.close();
+            conex.close();
             return idSeccion;
         }
 
     }
 
     /**
+     * Método que formatea una fecha. Se le pasa una fecha java.util.Date, y
+     * devuelve java.sql.Date.
      *
      * @param uDate
-     * @return
+     * @return Devuelve una fecha en formato java.sql.Date
      */
     public static java.sql.Date convert(java.util.Date uDate) {
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
     }
 
+    /**
+     * Método que inserta una incidencia en bbdd.
+     *
+     * @param inc
+     * @return devuelve true si se ha insertdo correctamente,y false si se ha
+     * producido algún error.
+     */
     public static boolean insertar(Incidencia inc) {
 
         try {
@@ -231,10 +266,11 @@ public class Funciones {
     }
 
     /**
-     * Elimina de bbdd la incidencia cuyo id es el que se pasa por parámetro
+     * Elimina de bbdd la incidencia con el id pasado por parámetro
      *
      * @param id
-     * @return
+     * @return evuelve true si se ha insertdo correctamente,y false si se ha
+     * producido algún error.
      */
     public static boolean eliminarIncidencia(Integer id) {
         try {
@@ -263,7 +299,8 @@ public class Funciones {
      * Modifica la incidencia cuyo id es el pasado por parámetro
      *
      * @param id
-     * @return
+     * @return evuelve true si se ha insertdo correctamente,y false si se ha
+     * producido algún error.
      */
     public static boolean modificarIncidencia(Incidencia inc) {
         try {
@@ -293,6 +330,13 @@ public class Funciones {
 
     }
 
+    /**
+     * Método que convierte un String en formato java.sql.Date.
+     *
+     * @param fecha
+     * @return Devuelve una fecha en formato java.sql.Date.
+     * @throws ParseException
+     */
     public static java.sql.Date convertirStringAFecha(String fecha) throws ParseException {
         java.sql.Date fecFormatoDate = null;
         try {
@@ -302,7 +346,7 @@ public class Funciones {
         } catch (Exception ex) {
             System.out.println("Error al obtener el formato de la fecha/hora: " + ex.getMessage());
         }
-        
+
         return fecFormatoDate;
     }
 
@@ -312,7 +356,7 @@ public class Funciones {
      * @param fecha Cadena de fecha dd/MM/yyyy
      * @return Objeto Date
      */
-  /*  public static java.util.Date ParseFecha(String fecha) {
+    /*  public static java.util.Date ParseFecha(String fecha) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date fechaDate = null;
         try {
@@ -322,7 +366,13 @@ public class Funciones {
         }
         return fechaDate;
     }
-*/
+     */
+    /**
+     * Método que busca una incidencia cuyo id es el pasado por parámetro.
+     *
+     * @param id
+     * @return Devuelve un objeto Incidencia.
+     */
     public static Incidencia buscaIncidenciaPorId(int id) {
         Incidencia inc = null;
         String desc = null;

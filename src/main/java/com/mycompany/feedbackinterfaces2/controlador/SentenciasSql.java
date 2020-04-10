@@ -1,11 +1,11 @@
 package com.mycompany.feedbackinterfaces2.controlador;
 
 /**
- *
+ * Clase en que se definen sentencias sql    
  * @author Hp
  */
 public class SentenciasSql {
-
+ 
 public  String consulta = "SELECT concat(cli.nombre,' ',cli.apellidos)as cliente, idIncidencia,inc.descripcion,sec.nombre as seccion,fecha,importe,est.codigo as estado\n"
             + "from incidencias inc,secciones sec,estado est,clientes cli\n"
             + "where inc.idEstado=est.idEstado\n"
