@@ -21,8 +21,6 @@ public class Funciones {
     ConexionMySql conexionMySql = new ConexionMySql();
     Connection con = conexionMySql.conectar();
 
-    
-
     /**
      * Método que realiza una consulta a bbdd y devuelve un listado de
      * incidencias, en función de los parámetros informados .
@@ -103,8 +101,6 @@ public class Funciones {
         }
 
         ResultSet rsDatos = ps.executeQuery();
-        rsDatos.close();
-        conex.close();
 
         return rsDatos;
 
@@ -141,8 +137,6 @@ public class Funciones {
 
             }
 
-            rsDatos.close();
-            conex.close();
             return idCliente;
         }
 
@@ -173,8 +167,6 @@ public class Funciones {
                 idEstado = rsDatos.getInt(1);
             }
 
-            rsDatos.close();
-            conex.close();
             return idEstado;
         }
 
@@ -205,7 +197,7 @@ public class Funciones {
                 idSeccion = rsDatos.getInt(1);
             }
 
-            rsDatos.close();
+            ps.close();
             conex.close();
             return idSeccion;
         }
@@ -279,7 +271,7 @@ public class Funciones {
             int filas;
             filas = ps.executeUpdate();
             System.out.println("Se ha eliminado la incidencia " + id);
-            ps.close();
+             ps.close();
             conex.close();
             return true;
         } catch (SQLException ex) {

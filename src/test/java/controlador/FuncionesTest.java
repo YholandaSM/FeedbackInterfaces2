@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Clase que realiza pruebas unitarias para los métodos que insertan y eliminan
+ * Clase con pruebas unitarias para los métodos que insertan y eliminan
  * una incidencias.
- * 
+ *
  * @author Hp
  */
 public class FuncionesTest {
@@ -46,8 +46,6 @@ public class FuncionesTest {
         boolean expResult = true;
         boolean result = Funciones.insertar(inc);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-
     }
 
     /**
@@ -60,8 +58,6 @@ public class FuncionesTest {
         boolean expResult = true;
         boolean result = Funciones.eliminarIncidencia(id);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-
     }
 
 }

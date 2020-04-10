@@ -303,7 +303,8 @@ public class JFIncidencias extends javax.swing.JFrame {
 
             //1.Obtenemos el objeto JasperPrint
             JasperPrint jasperPrint
-                    = JasperFillManager.fillReport("./src/main/java/com/mycompany/feedbackinterfaces2/vista/reports/incidencias.jasper", parameters, c);
+                    = JasperFillManager.fillReport("./src/main/java/vista/reports/incidencias.jasper", parameters, c);
+                                               
             JasperViewer viewer = new JasperViewer(jasperPrint, false);
           
             viewer.setVisible(true);
