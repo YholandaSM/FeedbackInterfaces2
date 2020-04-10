@@ -1,4 +1,4 @@
-package com.mycompany.feedbackinterfaces2.controlador;
+package controlador;
 
 /**
  * Clase en que se definen sentencias sql    

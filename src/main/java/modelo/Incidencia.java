@@ -1,4 +1,4 @@
-package com.mycompany.feedbackinterfaces2.modelo;
+package modelo;
 
 import java.sql.Date;
 

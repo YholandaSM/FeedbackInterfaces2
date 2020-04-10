@@ -1,10 +1,10 @@
-package com.mycompany.feedbackinterfaces2.vista;
+package vista;
 
-import com.mycompany.feedbackinterfaces2.controlador.Funciones;
-import static com.mycompany.feedbackinterfaces2.controlador.Funciones.devolverIdEstado;
-import static com.mycompany.feedbackinterfaces2.controlador.Funciones.devolverIdSeccion;
-import com.mycompany.feedbackinterfaces2.modelo.Incidencia;
-import com.mycompany.feedbackinterfaces2.modelo.conexion.ConexionMySql;
+import controlador.Funciones;
+import static controlador.Funciones.devolverIdEstado;
+import static controlador.Funciones.devolverIdSeccion;
+import modelo.Incidencia;
+import modelo.conexion.ConexionMySql;
 import com.mysql.jdbc.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;

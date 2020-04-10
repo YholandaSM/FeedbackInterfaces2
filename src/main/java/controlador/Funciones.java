@@ -1,7 +1,7 @@
-package com.mycompany.feedbackinterfaces2.controlador;
+package controlador;
 
-import com.mycompany.feedbackinterfaces2.modelo.Incidencia;
-import com.mycompany.feedbackinterfaces2.modelo.conexion.ConexionMySql;
+import modelo.Incidencia;
+import modelo.conexion.ConexionMySql;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -21,12 +21,7 @@ public class Funciones {
     ConexionMySql conexionMySql = new ConexionMySql();
     Connection con = conexionMySql.conectar();
 
-    /**
-     * Constructor vacío
-     */
-    public void insertarIncidencia() {
-
-    }
+    
 
     /**
      * Método que realiza una consulta a bbdd y devuelve un listado de
@@ -358,7 +353,7 @@ public class Funciones {
      */
     /*  public static java.util.Date ParseFecha(String fecha) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date fechaDate = null;
+         fechaDate = null;Date
         try {
             fechaDate = (Date) formato.parse(fecha);
         } catch (ParseException ex) {

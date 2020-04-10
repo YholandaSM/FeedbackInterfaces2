@@ -1,4 +1,4 @@
-package com.mycompany.feedbackinterfaces2.modelo.conexion;
+package modelo.conexion;
 
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
