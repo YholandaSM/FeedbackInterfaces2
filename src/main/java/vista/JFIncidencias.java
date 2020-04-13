@@ -6,6 +6,7 @@ import static controlador.Funciones.devolverIdSeccion;
 import modelo.Incidencia;
 import modelo.conexion.ConexionMySql;
 import com.mysql.jdbc.Connection;
+import java.awt.Dimension;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -297,8 +298,8 @@ public class JFIncidencias extends javax.swing.JFrame {
             parameters.put("cliente", txtCliente);
             parameters.put("seccion", txtSeccion);
             parameters.put("estado", txtEstado);
-            parameters.put("fechaDesde", txtFechaDesde);
-            parameters.put("fechaHasta", txtFechaHasta);
+            parameters.put("fechaDesde", txtFechaDesdeReport);
+            parameters.put("fechaHasta", txtFechaHastaReport);
           
 
             //1.Obtenemos el objeto JasperPrint
@@ -309,6 +310,9 @@ public class JFIncidencias extends javax.swing.JFrame {
           
             viewer.setVisible(true);
             viewer.setTitle("Informe Incidencias");
+            
+            txtFechaDesdeReport=null;
+            txtFechaHastaReport=null;
 
         } catch (JRException ex) {
             Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
@@ -496,11 +500,14 @@ public class JFIncidencias extends javax.swing.JFrame {
             //ESTADO
             txtEstado = Funciones.devolverIdEstado(jCEstado.getSelectedItem().toString());
             //FECHA DESDE Y HASTA
-            if (rSDateDesde.getDatoFecha() != null) {
+        
+            if (rSDateDesde.getDatoFecha() != null ) {
                 txtFechaDesde = Funciones.convert(rSDateDesde.getDatoFecha());
+                txtFechaDesdeReport=txtFechaDesde;
             }
             if (rSDateHasta.getDatoFecha() != null) {
                 txtFechaHasta = Funciones.convert(rSDateHasta.getDatoFecha());
+                txtFechaHastaReport=txtFechaHasta;
             }
 
             /*2.Con los datos ontroducidos por el usuario hacemos una consulta 
@@ -545,7 +552,7 @@ public class JFIncidencias extends javax.swing.JFrame {
             rSDateDesde.setDatoFecha(null);
             rSDateHasta.setDatoFecha(null);
             txtFechaDesde = null;
-            txtFechaHasta = null;
+            txtFechaHasta = null; 
 
             /**
              * ****MODIFICAR UNA FILA DE LA TABLA******************
@@ -700,6 +707,12 @@ public class JFIncidencias extends javax.swing.JFrame {
                 String importe = (String) modelo.getValueAt(modelo.getRowCount() - 1, modelo.findColumn("Importe"));
                 String estado = jCBTablaEstado.getSelectedItem().toString();
 
+                //Comprobamos que todos los campos vengan informados
+                if( fecha.equals("") || importe.equals("")){
+                    JOptionPane.showMessageDialog(null, "La fecha y el importe son obligatorios");
+                }
+                
+                
                 Incidencia inc = new Incidencia(descripcion,
                         Funciones.convertirStringAFecha(fecha),
                         Funciones.devolverIdCliente(cliente),
@@ -777,7 +790,9 @@ public class JFIncidencias extends javax.swing.JFrame {
     Integer txtSeccion = 0;
     Integer txtEstado = 0;
     java.sql.Date txtFechaDesde = null;
+    java.sql.Date txtFechaDesdeReport = null;
     java.sql.Date txtFechaHasta = null;
+     java.sql.Date txtFechaHastaReport = null;
 
     //Conexion
     ConexionMySql con = new ConexionMySql();
