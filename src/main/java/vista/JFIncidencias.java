@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -33,11 +34,12 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import utilidades.Utilidades;
 
 /**
- * Clase que representa un formulario para gesionar(altas, bajas y modificaciones)
- * incidencias.
- * 
+ * Clase que representa un formulario para gesionar(altas, bajas y
+ * modificaciones) incidencias.
+ *
  * @author Hp
  */
 public class JFIncidencias extends javax.swing.JFrame {
@@ -173,7 +175,7 @@ public class JFIncidencias extends javax.swing.JFrame {
             jTableIncidencias.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        jBGuardar.setText("Guardar cambios ");
+        jBGuardar.setText("Guardar");
         jBGuardar.setEnabled(false);
         jBGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,21 +214,22 @@ public class JFIncidencias extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jCSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(rSDateHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBBuscar)
-                                .addGap(24, 24, 24)
-                                .addComponent(jButtonPdf)))
+                            .addComponent(jBBuscar))
                         .addGap(27, 27, 27)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jCEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBGuardar)
+                                .addComponent(jButtonPdf)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBGuardar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBCancelar))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jBInsertar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -254,13 +257,11 @@ public class JFIncidencias extends javax.swing.JFrame {
                             .addComponent(rSDateDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(rSDateHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jBBuscar)
-                            .addComponent(jButtonPdf)))
+                        .addComponent(jBBuscar))
                     .addComponent(jLabel6))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                         .addComponent(jBInsertar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBEliminar)
@@ -270,8 +271,10 @@ public class JFIncidencias extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBGuardar)
-                    .addComponent(jBCancelar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBCancelar)
+                        .addComponent(jBGuardar))
+                    .addComponent(jButtonPdf))
                 .addContainerGap())
         );
 
@@ -283,11 +286,11 @@ public class JFIncidencias extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jBBuscarActionPerformed
     /**
-     * Método que define las acciones cuando se pulsa el botón Informe. 
-     * Se genera un informe jasper con la información que se haya seleccionado en el 
-     * formulario.
-     * 
-     * @param evt 
+     * Método que define las acciones cuando se pulsa el botón Informe. Se
+     * genera un informe jasper con la información que se haya seleccionado en
+     * el formulario.
+     *
+     * @param evt
      */
     private void jButtonPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPdfActionPerformed
         //http://www.laurafolgado.es/desarrollointerfaces/2017/02/incluir-informes-jasper-en-un-proyecto-de-java-swing/
@@ -300,19 +303,18 @@ public class JFIncidencias extends javax.swing.JFrame {
             parameters.put("estado", txtEstado);
             parameters.put("fechaDesde", txtFechaDesdeReport);
             parameters.put("fechaHasta", txtFechaHastaReport);
-          
 
             //1.Obtenemos el objeto JasperPrint
             JasperPrint jasperPrint
                     = JasperFillManager.fillReport("./src/main/java/vista/reports/incidencias.jasper", parameters, c);
-                                               
+
             JasperViewer viewer = new JasperViewer(jasperPrint, false);
-          
+
             viewer.setVisible(true);
             viewer.setTitle("Informe Incidencias");
-            
-            txtFechaDesdeReport=null;
-            txtFechaHastaReport=null;
+
+            txtFechaDesdeReport = null;
+            txtFechaHastaReport = null;
 
         } catch (JRException ex) {
             Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
@@ -339,6 +341,7 @@ public class JFIncidencias extends javax.swing.JFrame {
 
     /**
      * Método principal
+     *
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -374,8 +377,8 @@ public class JFIncidencias extends javax.swing.JFrame {
     }
 
     /**
-     * Método que carga  la lista desplegable de clientes con los datos que hay en la
-     * BBDD en la tabla clientes.
+     * Método que carga la lista desplegable de clientes con los datos que hay
+     * en la BBDD en la tabla clientes.
      */
     public void cargarComboboxClientes() {
         try {
@@ -397,8 +400,8 @@ public class JFIncidencias extends javax.swing.JFrame {
     }
 
     /**
-     * Método que carga  la lista desplegable de secciones con los datos que hay en la
-     * BBDD en la tabla secciones.
+     * Método que carga la lista desplegable de secciones con los datos que hay
+     * en la BBDD en la tabla secciones.
      */
     public void cargarComboboxSecciones() {
         try {
@@ -418,9 +421,10 @@ public class JFIncidencias extends javax.swing.JFrame {
         }
 
     }
+
     /**
-     * Método que carga  la lista desplegable de estados con los datos que hay en la
-     * BBDD en la tabla estados.
+     * Método que carga la lista desplegable de estados con los datos que hay en
+     * la BBDD en la tabla estados.
      */
     public void cargarComboboxEstado() {
         try {
@@ -500,14 +504,14 @@ public class JFIncidencias extends javax.swing.JFrame {
             //ESTADO
             txtEstado = Funciones.devolverIdEstado(jCEstado.getSelectedItem().toString());
             //FECHA DESDE Y HASTA
-        
-            if (rSDateDesde.getDatoFecha() != null ) {
+
+            if (rSDateDesde.getDatoFecha() != null) {
                 txtFechaDesde = Funciones.convert(rSDateDesde.getDatoFecha());
-                txtFechaDesdeReport=txtFechaDesde;
+                txtFechaDesdeReport = txtFechaDesde;
             }
             if (rSDateHasta.getDatoFecha() != null) {
                 txtFechaHasta = Funciones.convert(rSDateHasta.getDatoFecha());
-                txtFechaHastaReport=txtFechaHasta;
+                txtFechaHastaReport = txtFechaHasta;
             }
 
             /*2.Con los datos ontroducidos por el usuario hacemos una consulta 
@@ -552,7 +556,7 @@ public class JFIncidencias extends javax.swing.JFrame {
             rSDateDesde.setDatoFecha(null);
             rSDateHasta.setDatoFecha(null);
             txtFechaDesde = null;
-            txtFechaHasta = null; 
+            txtFechaHasta = null;
 
             /**
              * ****MODIFICAR UNA FILA DE LA TABLA******************
@@ -563,9 +567,9 @@ public class JFIncidencias extends javax.swing.JFrame {
             modelo.addTableModelListener(new TableModelListener() {
                 @Override
                 public void tableChanged(TableModelEvent e) {
-                  
+
                     if (e.getType() == TableModelEvent.UPDATE && accion != INSERTAR) {
-                  
+
                         int columna = e.getColumn();
                         int fila = e.getFirstRow();
                         if (columna == 2) {
@@ -586,7 +590,7 @@ public class JFIncidencias extends javax.swing.JFrame {
 
                         idAmodificar = (Integer) jTableIncidencias.getValueAt(fila, 1);
                         jBGuardar.setEnabled(true);
-                        accion=MODIFICAR;
+                        accion = MODIFICAR;
                     }
 
                 }
@@ -605,7 +609,7 @@ public class JFIncidencias extends javax.swing.JFrame {
     public void insertarIncidencia() {
         if (contAddRow == 0) {
             modelo.addRow(new Object[]{jCCliente.getSelectedItem().toString(),
-                "", "", "Elige sección", " ", "", "Elige estado"});
+                "", "", "Elige sección", "", "", "Elige estado"});
             contAddRow++;
             jBInsertar.setEnabled(false);
         }
@@ -613,7 +617,9 @@ public class JFIncidencias extends javax.swing.JFrame {
     }
 
     /**
-     * Método que convierte la columna secciones de la jTable en una lista desplegable.
+     * Método que convierte la columna secciones de la jTable en una lista
+     * desplegable.
+     *
      * @param tabla
      * @param columna
      */
@@ -640,11 +646,13 @@ public class JFIncidencias extends javax.swing.JFrame {
         }
 
     }
+
     /**
-     * Método que convierte la columna estado de la jTable en una lista desplegable.
-     * 
+     * Método que convierte la columna estado de la jTable en una lista
+     * desplegable.
+     *
      * @param tabla
-     * @param columna 
+     * @param columna
      */
     public void setCBEstado(JTable tabla, TableColumn columna) {
         try {
@@ -688,13 +696,14 @@ public class JFIncidencias extends javax.swing.JFrame {
 
         }
     }
-    
+
     /**
-     * Método que guarda en bbdd la inserción o la modificación de una fila 
-     * en la jTable.
+     * Método que guarda en bbdd la inserción o la modificación de una fila en
+     * la jTable.
      */
     public void guardarCambios() {
-
+      java.sql.Date fechaFormat;
+      float importeFormat=0.0F;
         //Insertar
         if (accion == INSERTAR) {
             try {
@@ -706,27 +715,43 @@ public class JFIncidencias extends javax.swing.JFrame {
                 String fecha = (String) modelo.getValueAt(modelo.getRowCount() - 1, modelo.findColumn("Fecha"));
                 String importe = (String) modelo.getValueAt(modelo.getRowCount() - 1, modelo.findColumn("Importe"));
                 String estado = jCBTablaEstado.getSelectedItem().toString();
+                boolean camposObligatorios = true;
+                boolean formatoFecha = true;
+               
+                
+                //Establecemos los valores por defecto
+                if(fecha.equals("")){
+                   java.util.Date d1 = new java.util.Date();
+                   fechaFormat=new java.sql.Date(d1.getTime());
+                }else{
+                    fechaFormat=Funciones.convertirStringAFecha(fecha);
+                }
+                
+                if(importe.equals("")){
+                    importeFormat=Float.parseFloat("0");
+                }else{
+                    importeFormat=Float.parseFloat(importe);
+                }
+             
+                    Incidencia inc = new Incidencia(descripcion,
+                            fechaFormat,
+                            Funciones.devolverIdCliente(cliente),
+                            Funciones.devolverIdSeccion(seccion),
+                            Funciones.devolverIdEstado(estado),
+                            importeFormat);
+                    if (Funciones.insertar(inc)) {
+                        //Inicializamos variables
+                        jBInsertar.setEnabled(true);
+                        contAddRow = 0;
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente");
+                        //Que se vea en la fila los valores insertados
+                        
+                        jBGuardar.setEnabled(false);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se ha podido guardar la incidencia");
+                    }
 
-                //Comprobamos que todos los campos vengan informados
-                if( fecha.equals("") || importe.equals("")){
-                    JOptionPane.showMessageDialog(null, "La fecha y el importe son obligatorios");
-                }
                 
-                
-                Incidencia inc = new Incidencia(descripcion,
-                        Funciones.convertirStringAFecha(fecha),
-                        Funciones.devolverIdCliente(cliente),
-                        Funciones.devolverIdSeccion(seccion),
-                        Funciones.devolverIdEstado(estado),
-                        Float.parseFloat(importe));
-                if (Funciones.insertar(inc)) {
-                    //Inicializamos variables
-                    jBInsertar.setEnabled(true);
-                    contAddRow = 0;
-                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente");
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se ha podido guardar la incidencia");
-                }
 
             } catch (ParseException ex) {
                 System.out.println("ParseException " + ex.getMessage());
@@ -734,6 +759,7 @@ public class JFIncidencias extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         } else if (accion == MODIFICAR) {
 
             try {
@@ -758,6 +784,7 @@ public class JFIncidencias extends javax.swing.JFrame {
 
                 if (Funciones.modificarIncidencia(inc)) {
                     JOptionPane.showMessageDialog(null, "Se ha modificado correctamente");
+                     jBGuardar.setEnabled(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "No se  ha modificado correctamente");
                 }
@@ -767,9 +794,28 @@ public class JFIncidencias extends javax.swing.JFrame {
                 Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        accion=0;//reiniciamos varible de control .
+
+        accion = 0;//reiniciamos varible de control .
     }
+
+    public boolean validarCamposObligatorios(String fecha, String importe) {
+        if (fecha.equals("") || importe.equals("")) {
+
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean validarFormatoFecha(String fecha) {
+        if (Utilidades.validarFecha(fecha)) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
     //Nuevos valores a modificar
     String nuevaDes;
     String nuevaSeccion;
@@ -792,7 +838,7 @@ public class JFIncidencias extends javax.swing.JFrame {
     java.sql.Date txtFechaDesde = null;
     java.sql.Date txtFechaDesdeReport = null;
     java.sql.Date txtFechaHasta = null;
-     java.sql.Date txtFechaHastaReport = null;
+    java.sql.Date txtFechaHastaReport = null;
 
     //Conexion
     ConexionMySql con = new ConexionMySql();

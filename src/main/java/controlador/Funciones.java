@@ -271,7 +271,7 @@ public class Funciones {
             int filas;
             filas = ps.executeUpdate();
             System.out.println("Se ha eliminado la incidencia " + id);
-             ps.close();
+            ps.close();
             conex.close();
             return true;
         } catch (SQLException ex) {
@@ -395,5 +395,7 @@ public class Funciones {
         }
         return inc;
     }
+
+   
 
 }
