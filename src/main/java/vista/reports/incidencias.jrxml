@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="92513b60-df37-4b43-8f29-8be634913128">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="1"/>
 	<parameter name="cliente" class="java.lang.Integer">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
@@ -43,6 +43,8 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 	<variable name="cliente" class="java.lang.String" calculation="DistinctCount">
 		<variableExpression><![CDATA[$F{cliente}]]></variableExpression>
 	</variable>
+	<variable name="nom_estado" class="java.lang.String"/>
+	<variable name="nom_seccion" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -62,16 +64,16 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 		</band>
 	</title>
 	<pageHeader>
-		<band height="64" splitType="Stretch">
+		<band height="79" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="204" y="8" width="87" height="18" uuid="969c0bf5-f175-4c0b-80d7-fc81ddf6e750"/>
+				<reportElement x="18" y="16" width="87" height="18" forecolor="#3333FF" uuid="969c0bf5-f175-4c0b-80d7-fc81ddf6e750"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8"/>
+					<font fontName="Cambria" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="164" y="8" width="34" height="18" backcolor="#FFFFFF" uuid="16ab8c6d-826e-4fd5-874e-4d31354ade1d"/>
+				<reportElement mode="Opaque" x="16" y="34" width="130" height="18" backcolor="#FFFFFF" uuid="0fee3bac-28c1-43f3-ac6f-3dd42ab50c50"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -80,26 +82,12 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 					<rightPen lineColor="#9999FF"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial Black" size="8"/>
-				</textElement>
-				<text><![CDATA[Fecha:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="164" y="26" width="130" height="18" backcolor="#FFFFFF" uuid="0fee3bac-28c1-43f3-ac6f-3dd42ab50c50"/>
-				<box>
-					<pen lineColor="#9999FF"/>
-					<topPen lineColor="#9999FF"/>
-					<leftPen lineColor="#9999FF"/>
-					<bottomPen lineColor="#9999FF"/>
-					<rightPen lineColor="#9999FF"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="8"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tienda de informática]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="164" y="46" width="121" height="18" backcolor="#FFFFFF" uuid="82a77b99-d696-4d2b-8f6a-44e42f2fdc9a"/>
+				<reportElement mode="Opaque" x="16" y="53" width="121" height="18" backcolor="#FFFFFF" uuid="82a77b99-d696-4d2b-8f6a-44e42f2fdc9a"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -108,29 +96,29 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 					<rightPen lineColor="#9999FF"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="8"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dirección: C/ Madrid 34, ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="348" y="26" width="75" height="20" uuid="e8be7b6d-83a1-41c4-b5a9-27f1fd94d935"/>
+				<reportElement x="199" y="16" width="65" height="20" uuid="e8be7b6d-83a1-41c4-b5a9-27f1fd94d935"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("MMM dd, YYYY").format($P{fechaDesde})]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement mode="Transparent" x="159" y="3" width="267" height="60" forecolor="#CCCCFF" backcolor="#FFFFFF" uuid="12f370d7-7273-4d88-9351-979e2c4717e5"/>
+				<reportElement mode="Transparent" x="11" y="11" width="130" height="60" forecolor="#CCCCFF" backcolor="#FFFFFF" uuid="12f370d7-7273-4d88-9351-979e2c4717e5"/>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement x="348" y="46" width="75" height="16" uuid="2e6cc26b-b800-4bd0-83b2-25703d80a06f"/>
+				<reportElement x="293" y="16" width="65" height="16" uuid="2e6cc26b-b800-4bd0-83b2-25703d80a06f"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("MMM dd, YYYY").format($P{fechaHasta})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="298" y="8" width="42" height="18" backcolor="#FFFFFF" uuid="d3b450c5-909b-4f8e-8ecf-d2ea5b72e9bd"/>
+				<reportElement mode="Opaque" x="156" y="16" width="42" height="18" backcolor="#FFFFFF" uuid="d3b450c5-909b-4f8e-8ecf-d2ea5b72e9bd"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -144,7 +132,7 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<text><![CDATA[Periodo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="298" y="26" width="34" height="18" backcolor="#FFFFFF" uuid="7d0f6ae7-772a-49cf-b458-3e1779cb0e7d"/>
+				<reportElement mode="Opaque" x="274" y="16" width="12" height="16" backcolor="#FFFFFF" uuid="b94573c5-fef6-4e12-ad47-2797d30e0b57"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -155,10 +143,10 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial Black" size="8"/>
 				</textElement>
-				<text><![CDATA[Desde:]]></text>
+				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="298" y="46" width="34" height="16" backcolor="#FFFFFF" uuid="b94573c5-fef6-4e12-ad47-2797d30e0b57"/>
+				<reportElement mode="Opaque" x="156" y="34" width="42" height="18" backcolor="#FFFFFF" uuid="8af81fbf-4a2b-43ca-bd24-c3f34d0dc6e1"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -169,8 +157,59 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial Black" size="8"/>
 				</textElement>
-				<text><![CDATA[Hasta:]]></text>
+				<text><![CDATA[Estado:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="156" y="53" width="42" height="18" backcolor="#FFFFFF" uuid="cc44f16f-80c5-40b9-ae1b-b895fd08c30d"/>
+				<box>
+					<pen lineColor="#9999FF"/>
+					<topPen lineColor="#9999FF"/>
+					<leftPen lineColor="#9999FF"/>
+					<bottomPen lineColor="#9999FF"/>
+					<rightPen lineColor="#9999FF"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="8"/>
+				</textElement>
+				<text><![CDATA[Sección:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="199" y="34" width="62" height="16" uuid="596257ce-65eb-4172-af0f-c74a9e52ca39"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{estado}.intValue()==1?"Aceptada": 
+$P{estado}.intValue()==2?"Rechazada": 
+$P{estado}.intValue()==3?"En proceso": 
+$P{estado}.intValue()==4?"Resuelta": 
+$P{estado}.intValue()==5?"Anulada": "*"
+
+
+
+
+
+ ]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="53" width="62" height="16" uuid="b68b29b9-fa38-461d-9e0f-4f1b18b84814"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{seccion}.intValue()==1?"PCs": 
+$P{seccion}.intValue()==2?"Portátiles": 
+$P{seccion}.intValue()==3?"Tablets": 
+$P{seccion}.intValue()==4?"Móviles": 
+$P{seccion}.intValue()==5?"Otros": "*"
+
+
+
+
+
+ ]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement mode="Transparent" x="150" y="11" width="218" height="60" forecolor="#CCCCFF" backcolor="#FFFFFF" uuid="e544da2b-661a-42ce-a871-1bae203d9d29"/>
+			</rectangle>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -190,7 +229,7 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="2" y="2" width="552" height="21" backcolor="#CCCCCD" uuid="a9e00e0f-5a17-4ee5-b7b4-e0b3b4ef54d1"/>
+				<reportElement x="2" y="2" width="552" height="21" backcolor="#CCCCFF" uuid="a9e00e0f-5a17-4ee5-b7b4-e0b3b4ef54d1"/>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Transparent" x="131" y="3" width="205" height="20" backcolor="#FFFFFF" uuid="c4bc9013-7b08-4190-9fa8-dc6ceab38832"/>
@@ -249,7 +288,7 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<text><![CDATA[IMPORTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="2" y="3" width="87" height="20" backcolor="#FFFFFF" uuid="e04546fb-43c3-4123-b874-992e5f45e004"/>
+				<reportElement mode="Transparent" x="3" y="3" width="87" height="20" backcolor="#FFFFFF" uuid="e04546fb-43c3-4123-b874-992e5f45e004"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -297,8 +336,10 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<textFieldExpression><![CDATA[$F{IMPORTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="2" y="6" width="75" height="18" forecolor="#666666" backcolor="#CCCCCC" uuid="beb52e5d-5f93-4e8c-90c8-a6b9db8e5d3f"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="3" y="6" width="75" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="beb52e5d-5f93-4e8c-90c8-a6b9db8e5d3f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Berlin Sans FB Demi" size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -315,7 +356,7 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 			<staticText>
 				<reportElement x="1" y="0" width="293" height="20" uuid="f80e07ee-87da-4dee-beca-24fd731739d4"/>
 				<textElement>
-					<font fontName="Arial Black" size="6"/>
+					<font fontName="Arial Black" size="8"/>
 				</textElement>
 				<text><![CDATA[Aplicación hecha en Netbeans, con Java Swing y Jasper Reports]]></text>
 			</staticText>
