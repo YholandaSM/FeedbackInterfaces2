@@ -11,7 +11,7 @@
 	<parameter name="fechaDesde" class="java.util.Date"/>
 	<parameter name="fechaHasta" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[Select inc.idIncidencia,inc.descripcion,sec.nombre as seccion, concat(est.codigo, est.descripcion) as estado,IMPORTE, concat(cli.nombre,cli.apellidos) as cliente 
+		<![CDATA[Select inc.idIncidencia,inc.descripcion,sec.nombre as seccion, concat(est.codigo,'-',est.descripcion) as estado,IMPORTE, concat(cli.nombre,' ',cli.apellidos) as cliente 
 
 	 from clientes cli,incidencias inc,estado est,secciones sec
 	where inc.idCliente=cli.idCliente

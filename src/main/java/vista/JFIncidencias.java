@@ -90,10 +90,20 @@ public class JFIncidencias extends javax.swing.JFrame {
         jLabel2.setText("CLIENTE");
 
         jCCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCClienteActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Sección");
 
         jCSeccion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCSeccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCSeccionActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Estado");
 
@@ -132,6 +142,7 @@ public class JFIncidencias extends javax.swing.JFrame {
         });
 
         jButtonPdf.setText("Informe");
+        jButtonPdf.setEnabled(false);
         jButtonPdf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPdfActionPerformed(evt);
@@ -185,6 +196,11 @@ public class JFIncidencias extends javax.swing.JFrame {
 
         jBCancelar.setText("Cancelar");
         jBCancelar.setEnabled(false);
+        jBCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -283,6 +299,8 @@ public class JFIncidencias extends javax.swing.JFrame {
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         mostrarIncidencias();
+        jBCancelar.setEnabled(true);
+        jButtonPdf.setEnabled(true);
 
     }//GEN-LAST:event_jBBuscarActionPerformed
     /**
@@ -296,25 +314,31 @@ public class JFIncidencias extends javax.swing.JFrame {
         //http://www.laurafolgado.es/desarrollointerfaces/2017/02/incluir-informes-jasper-en-un-proyecto-de-java-swing/
         try {
 
-            //los parametros a 0 
-            Map<String, Object> parameters = new HashMap();
-            parameters.put("cliente", txtCliente);
-            parameters.put("seccion", txtSeccion);
-            parameters.put("estado", txtEstado);
-            parameters.put("fechaDesde", txtFechaDesdeReport);
-            parameters.put("fechaHasta", txtFechaHastaReport);
+            if (jTableIncidencias.getRowCount()==0) {
+                JOptionPane.showMessageDialog(null, "La tabla debe conetener líneas.Pulse el botón buscar"
+                        + " antes de generar el informe");
+            } else {
 
-            //1.Obtenemos el objeto JasperPrint
-            JasperPrint jasperPrint
-                    = JasperFillManager.fillReport("./src/main/java/vista/reports/incidencias.jasper", parameters, c);
+                //los parametros a 0 
+                Map<String, Object> parameters = new HashMap();
+                parameters.put("cliente", txtCliente);
+                parameters.put("seccion", txtSeccion);
+                parameters.put("estado", txtEstado);
+                parameters.put("fechaDesde", txtFechaDesdeReport);
+                parameters.put("fechaHasta", txtFechaHastaReport);
 
-            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+                //1.Obtenemos el objeto JasperPrint
+                JasperPrint jasperPrint
+                        = JasperFillManager.fillReport("./src/main/java/vista/reports/incidencias.jasper", parameters, c);
 
-            viewer.setVisible(true);
-            viewer.setTitle("Informe Incidencias");
+                JasperViewer viewer = new JasperViewer(jasperPrint, false);
 
-            txtFechaDesdeReport = null;
-            txtFechaHastaReport = null;
+                viewer.setVisible(true);
+                viewer.setTitle("Informe Incidencias");
+
+                txtFechaDesdeReport = null;
+                txtFechaHastaReport = null;
+            }
 
         } catch (JRException ex) {
             Logger.getLogger(JFIncidencias.class.getName()).log(Level.SEVERE, null, ex);
@@ -338,6 +362,18 @@ public class JFIncidencias extends javax.swing.JFrame {
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
         eliminarIncidencia();
     }//GEN-LAST:event_jBEliminarActionPerformed
+
+    private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_jBCancelarActionPerformed
+
+    private void jCClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCClienteActionPerformed
+
+    }//GEN-LAST:event_jCClienteActionPerformed
+
+    private void jCSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCSeccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCSeccionActionPerformed
 
     /**
      * Método principal
@@ -476,7 +512,7 @@ public class JFIncidencias extends javax.swing.JFrame {
             @Override
             //Las columnas cliente e Id. NO son editables
             public boolean isCellEditable(int row, int column) {
-                if (column == 0 || column == 1) {
+                if (column == 0 || column == 1 || column == 4) {
                     return false;
                 }
                 return true;
@@ -608,8 +644,11 @@ public class JFIncidencias extends javax.swing.JFrame {
      */
     public void insertarIncidencia() {
         if (contAddRow == 0) {
+              java.util.Date d1 = new java.util.Date();
+              java.util.Date  fechaFormat = new java.sql.Date(d1.getTime());
+               
             modelo.addRow(new Object[]{jCCliente.getSelectedItem().toString(),
-                "", "", "Elige sección", "", "", "Elige estado"});
+                "", "", "Elige sección", fechaFormat.toString(), Float.parseFloat("0"), "Elige estado"});
             contAddRow++;
             jBInsertar.setEnabled(false);
         }
@@ -702,8 +741,8 @@ public class JFIncidencias extends javax.swing.JFrame {
      * la jTable.
      */
     public void guardarCambios() {
-      java.sql.Date fechaFormat;
-      float importeFormat=0.0F;
+        java.sql.Date fechaFormat;
+        float importeFormat = 0.0F;
         //Insertar
         if (accion == INSERTAR) {
             try {
@@ -717,41 +756,38 @@ public class JFIncidencias extends javax.swing.JFrame {
                 String estado = jCBTablaEstado.getSelectedItem().toString();
                 boolean camposObligatorios = true;
                 boolean formatoFecha = true;
-               
-                
-                //Establecemos los valores por defecto
-                if(fecha.equals("")){
-                   java.util.Date d1 = new java.util.Date();
-                   fechaFormat=new java.sql.Date(d1.getTime());
-                }else{
-                    fechaFormat=Funciones.convertirStringAFecha(fecha);
-                }
-                
-                if(importe.equals("")){
-                    importeFormat=Float.parseFloat("0");
-                }else{
-                    importeFormat=Float.parseFloat(importe);
-                }
-             
-                    Incidencia inc = new Incidencia(descripcion,
-                            fechaFormat,
-                            Funciones.devolverIdCliente(cliente),
-                            Funciones.devolverIdSeccion(seccion),
-                            Funciones.devolverIdEstado(estado),
-                            importeFormat);
-                    if (Funciones.insertar(inc)) {
-                        //Inicializamos variables
-                        jBInsertar.setEnabled(true);
-                        contAddRow = 0;
-                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente");
-                        //Que se vea en la fila los valores insertados
-                        
-                        jBGuardar.setEnabled(false);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No se ha podido guardar la incidencia");
-                    }
 
-                
+                //Establecemos los valores por defecto
+                if (fecha.equals("")) {
+                    java.util.Date d1 = new java.util.Date();
+                    fechaFormat = new java.sql.Date(d1.getTime());
+                } else {
+                    fechaFormat = Funciones.convertirStringAFecha(fecha);
+                }
+
+                if (importe.equals("")) {
+                    importeFormat = Float.parseFloat("0");
+                } else {
+                    importeFormat = Float.parseFloat(importe);
+                }
+
+                Incidencia inc = new Incidencia(descripcion,
+                        fechaFormat,
+                        Funciones.devolverIdCliente(cliente),
+                        Funciones.devolverIdSeccion(seccion),
+                        Funciones.devolverIdEstado(estado),
+                        importeFormat);
+                if (Funciones.insertar(inc)) {
+                    //Inicializamos variables
+                    jBInsertar.setEnabled(true);
+                    contAddRow = 0;
+                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente");
+                    //Que se vea en la fila los valores insertados
+
+                    jBGuardar.setEnabled(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se ha podido guardar la incidencia");
+                }
 
             } catch (ParseException ex) {
                 System.out.println("ParseException " + ex.getMessage());
@@ -784,7 +820,7 @@ public class JFIncidencias extends javax.swing.JFrame {
 
                 if (Funciones.modificarIncidencia(inc)) {
                     JOptionPane.showMessageDialog(null, "Se ha modificado correctamente");
-                     jBGuardar.setEnabled(false);
+                    jBGuardar.setEnabled(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "No se  ha modificado correctamente");
                 }
@@ -814,6 +850,29 @@ public class JFIncidencias extends javax.swing.JFrame {
         } else {
             return false;
         }
+    }
+
+    public void limpiarCampos() {
+
+        //limpiamos las listas desplegables
+        jCCliente.setSelectedIndex(0);
+        jCSeccion.setSelectedIndex(0);
+        jCEstado.setSelectedIndex(0);
+
+        //lipiamos fechas
+        rSDateDesde.setDatoFecha(null);
+        rSDateHasta.setDatoFecha(null);
+
+        //limpiamos la tabla con todos los registros
+        modelo.setRowCount(0);
+
+        //Limpiamos los parametros del informe
+        txtCliente = null;
+        txtSeccion = null;
+        txtEstado = null;
+        txtFechaDesdeReport = null;
+        txtFechaHastaReport = null;
+
     }
 
     //Nuevos valores a modificar
