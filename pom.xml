@@ -13,11 +13,7 @@
         </repository>
     </repositories>
     <dependencies>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>RSCalendar</artifactId>
-            <version>SNAPSHOT</version>
-        </dependency>
+      
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
@@ -63,6 +59,11 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.5.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>RSCalendar</groupId>
+            <artifactId>calendar</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
     <properties>

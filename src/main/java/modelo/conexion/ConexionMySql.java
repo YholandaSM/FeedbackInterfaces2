@@ -23,7 +23,7 @@ public class ConexionMySql {
 
         usuario = "root";
         password = "";
-        path = "jdbc:mysql://localhost:3308/fdb_bbddinterfaces";
+        path = "jdbc:mysql://localhost:3308/incidencias";
     }
 
     /**

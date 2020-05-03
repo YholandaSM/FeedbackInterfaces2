@@ -25,13 +25,13 @@ public class Funciones {
      * Método que realiza una consulta a bbdd y devuelve un listado de
      * incidencias, en función de los parámetros informados .
      *
-     * @param cliente
-     * @param seccion
-     * @param estado
-     * @param fechaDesde
-     * @param fechaHasta
+     * @param cliente cliente
+     * @param seccion sección
+     * @param estado estado
+     * @param fechaDesde decha desde
+     * @param fechaHasta fecha hasta
      * @return Listado de incidencias
-     * @throws SQLException
+     * @throws SQLException excepción SQL
      */
     public static ResultSet consultarIncidencias(Integer cliente, Integer seccion, Integer estado,
             Date fechaDesde, Date fechaHasta
@@ -110,9 +110,9 @@ public class Funciones {
      * Método que consulta un cliente a la bbdd pasándole como parámetro el
      * nombre
      *
-     * @param nombreCompleto
+     * @param nombreCompleto nombre del cliente a consultar
      * @return Devuelve el id del cliente
-     * @throws SQLException
+     * @throws SQLException excepción SQL
      */
     public static Integer devolverIdCliente(String nombreCompleto) throws SQLException {
         ConexionMySql con = new ConexionMySql();
@@ -146,7 +146,7 @@ public class Funciones {
      * Método que consulta un estado a la bbdd pasándole como parámetro el
      * nombre
      *
-     * @param estado
+     * @param estado estado
      * @return Devuelve el identificador del estado
      */
     public static Integer devolverIdEstado(String estado) throws SQLException {
@@ -176,9 +176,9 @@ public class Funciones {
      * Método que consulta una sección a la bbdd pasándole como parámetro el
      * nombre
      *
-     * @param seccion
+     * @param seccion sección
      * @return Devuelve del identificador de la sección
-     * @throws SQLException
+     * @throws SQLException excepción SQL
      */
     public static Integer devolverIdSeccion(String seccion) throws SQLException {
         if (seccion.contains("*")) {
@@ -205,21 +205,9 @@ public class Funciones {
     }
 
     /**
-     * Método que formatea una fecha. Se le pasa una fecha java.util.Date, y
-     * devuelve java.sql.Date.
-     *
-     * @param uDate
-     * @return Devuelve una fecha en formato java.sql.Date
-     */
-    public static java.sql.Date convert(java.util.Date uDate) {
-        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
-        return sDate;
-    }
-
-    /**
      * Método que inserta una incidencia en bbdd.
      *
-     * @param inc
+     * @param inc objeto incidencia
      * @return devuelve true si se ha insertdo correctamente,y false si se ha
      * producido algún error.
      */
@@ -255,7 +243,7 @@ public class Funciones {
     /**
      * Elimina de bbdd la incidencia con el id pasado por parámetro
      *
-     * @param id
+     * @param id id
      * @return evuelve true si se ha insertdo correctamente,y false si se ha
      * producido algún error.
      */
@@ -285,9 +273,8 @@ public class Funciones {
     /**
      * Modifica la incidencia cuyo id es el pasado por parámetro
      *
-     * @param id
-     * @return evuelve true si se ha insertdo correctamente,y false si se ha
-     * producido algún error.
+     * @param inc
+     * @return
      */
     public static boolean modificarIncidencia(Incidencia inc) {
         try {
@@ -395,7 +382,5 @@ public class Funciones {
         }
         return inc;
     }
-
-   
 
 }

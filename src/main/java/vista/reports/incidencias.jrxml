@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="92513b60-df37-4b43-8f29-8be634913128">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="cliente" class="java.lang.Integer">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
@@ -11,7 +11,7 @@
 	<parameter name="fechaDesde" class="java.util.Date"/>
 	<parameter name="fechaHasta" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[Select inc.idIncidencia,inc.descripcion,sec.nombre as seccion, concat(est.codigo,'-',est.descripcion) as estado,IMPORTE, concat(cli.nombre,' ',cli.apellidos) as cliente 
+		<![CDATA[Select inc.idIncidencia,inc.descripcion,sec.nombre as seccion, concat(est.codigo,'-',est.descripcion) as estado,fecha,IMPORTE, concat(cli.nombre,' ',cli.apellidos) as cliente 
 
 	 from clientes cli,incidencias inc,estado est,secciones sec
 	where inc.idCliente=cli.idCliente
@@ -33,6 +33,9 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 	</field>
 	<field name="seccion" class="java.lang.String"/>
 	<field name="estado" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<field name="IMPORTE" class="java.lang.Float">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
@@ -66,14 +69,14 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 	<pageHeader>
 		<band height="79" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="18" y="16" width="87" height="18" forecolor="#3333FF" uuid="969c0bf5-f175-4c0b-80d7-fc81ddf6e750"/>
+				<reportElement x="105" y="15" width="87" height="18" forecolor="#3333FF" uuid="969c0bf5-f175-4c0b-80d7-fc81ddf6e750"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Cambria" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="16" y="34" width="130" height="18" backcolor="#FFFFFF" uuid="0fee3bac-28c1-43f3-ac6f-3dd42ab50c50"/>
+				<reportElement mode="Opaque" x="103" y="33" width="130" height="18" backcolor="#FFFFFF" uuid="0fee3bac-28c1-43f3-ac6f-3dd42ab50c50"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -87,7 +90,7 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<text><![CDATA[Tienda de informática]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="16" y="53" width="121" height="18" backcolor="#FFFFFF" uuid="82a77b99-d696-4d2b-8f6a-44e42f2fdc9a"/>
+				<reportElement mode="Opaque" x="103" y="52" width="121" height="18" backcolor="#FFFFFF" uuid="82a77b99-d696-4d2b-8f6a-44e42f2fdc9a"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -101,24 +104,24 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<text><![CDATA[Dirección: C/ Madrid 34, ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="199" y="16" width="65" height="20" uuid="e8be7b6d-83a1-41c4-b5a9-27f1fd94d935"/>
+				<reportElement x="286" y="15" width="65" height="20" uuid="e8be7b6d-83a1-41c4-b5a9-27f1fd94d935"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("MMM dd, YYYY").format($P{fechaDesde})]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement mode="Transparent" x="11" y="11" width="130" height="60" forecolor="#CCCCFF" backcolor="#FFFFFF" uuid="12f370d7-7273-4d88-9351-979e2c4717e5"/>
+				<reportElement mode="Transparent" x="98" y="10" width="130" height="60" forecolor="#CCCCFF" backcolor="#FFFFFF" uuid="12f370d7-7273-4d88-9351-979e2c4717e5"/>
 			</rectangle>
 			<textField isBlankWhenNull="true">
-				<reportElement x="293" y="16" width="65" height="16" uuid="2e6cc26b-b800-4bd0-83b2-25703d80a06f"/>
+				<reportElement x="380" y="15" width="65" height="16" uuid="2e6cc26b-b800-4bd0-83b2-25703d80a06f"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("MMM dd, YYYY").format($P{fechaHasta})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="156" y="16" width="42" height="18" backcolor="#FFFFFF" uuid="d3b450c5-909b-4f8e-8ecf-d2ea5b72e9bd"/>
+				<reportElement mode="Opaque" x="243" y="15" width="42" height="18" backcolor="#FFFFFF" uuid="d3b450c5-909b-4f8e-8ecf-d2ea5b72e9bd"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -132,7 +135,7 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<text><![CDATA[Periodo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="274" y="16" width="12" height="16" backcolor="#FFFFFF" uuid="b94573c5-fef6-4e12-ad47-2797d30e0b57"/>
+				<reportElement mode="Opaque" x="361" y="15" width="12" height="16" backcolor="#FFFFFF" uuid="b94573c5-fef6-4e12-ad47-2797d30e0b57"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -146,7 +149,7 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="156" y="34" width="42" height="18" backcolor="#FFFFFF" uuid="8af81fbf-4a2b-43ca-bd24-c3f34d0dc6e1"/>
+				<reportElement mode="Opaque" x="243" y="33" width="42" height="18" backcolor="#FFFFFF" uuid="8af81fbf-4a2b-43ca-bd24-c3f34d0dc6e1"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -160,7 +163,7 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				<text><![CDATA[Estado:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="156" y="53" width="42" height="18" backcolor="#FFFFFF" uuid="cc44f16f-80c5-40b9-ae1b-b895fd08c30d"/>
+				<reportElement mode="Opaque" x="243" y="52" width="42" height="18" backcolor="#FFFFFF" uuid="cc44f16f-80c5-40b9-ae1b-b895fd08c30d"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -173,8 +176,8 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 				</textElement>
 				<text><![CDATA[Sección:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="199" y="34" width="62" height="16" uuid="596257ce-65eb-4172-af0f-c74a9e52ca39"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="286" y="33" width="62" height="16" uuid="596257ce-65eb-4172-af0f-c74a9e52ca39"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -182,16 +185,10 @@ and fecha<=coalesce($P{fechaHasta},fecha)
 $P{estado}.intValue()==2?"Rechazada": 
 $P{estado}.intValue()==3?"En proceso": 
 $P{estado}.intValue()==4?"Resuelta": 
-$P{estado}.intValue()==5?"Anulada": "*"
-
-
-
-
-
- ]]></textFieldExpression>
+$P{estado}.intValue()==5?"Anulada":"*"]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="199" y="53" width="62" height="16" uuid="b68b29b9-fa38-461d-9e0f-4f1b18b84814"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="286" y="52" width="62" height="16" uuid="b68b29b9-fa38-461d-9e0f-4f1b18b84814"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -199,16 +196,10 @@ $P{estado}.intValue()==5?"Anulada": "*"
 $P{seccion}.intValue()==2?"Portátiles": 
 $P{seccion}.intValue()==3?"Tablets": 
 $P{seccion}.intValue()==4?"Móviles": 
-$P{seccion}.intValue()==5?"Otros": "*"
-
-
-
-
-
- ]]></textFieldExpression>
+$P{seccion}.intValue()==5?"Otros": "*"]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement mode="Transparent" x="150" y="11" width="218" height="60" forecolor="#CCCCFF" backcolor="#FFFFFF" uuid="e544da2b-661a-42ce-a871-1bae203d9d29"/>
+				<reportElement mode="Transparent" x="237" y="10" width="217" height="60" forecolor="#CCCCFF" backcolor="#FFFFFF" uuid="e544da2b-661a-42ce-a871-1bae203d9d29"/>
 			</rectangle>
 		</band>
 	</pageHeader>
@@ -232,7 +223,7 @@ $P{seccion}.intValue()==5?"Otros": "*"
 				<reportElement x="2" y="2" width="552" height="21" backcolor="#CCCCFF" uuid="a9e00e0f-5a17-4ee5-b7b4-e0b3b4ef54d1"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Transparent" x="131" y="3" width="205" height="20" backcolor="#FFFFFF" uuid="c4bc9013-7b08-4190-9fa8-dc6ceab38832"/>
+				<reportElement mode="Transparent" x="131" y="3" width="175" height="20" backcolor="#FFFFFF" uuid="c4bc9013-7b08-4190-9fa8-dc6ceab38832"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -246,7 +237,7 @@ $P{seccion}.intValue()==5?"Otros": "*"
 				<text><![CDATA[DESCRIPCIÓN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="336" y="3" width="66" height="20" backcolor="#FFFFFF" uuid="f145569f-59ad-4e43-bad5-1e5fabbc4fb4"/>
+				<reportElement mode="Transparent" x="306" y="3" width="66" height="20" backcolor="#FFFFFF" uuid="f145569f-59ad-4e43-bad5-1e5fabbc4fb4"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -260,7 +251,7 @@ $P{seccion}.intValue()==5?"Otros": "*"
 				<text><![CDATA[SECCIÓN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="402" y="3" width="96" height="20" backcolor="#FFFFFF" uuid="300ec172-c596-42ee-bed0-5b59af2e7216"/>
+				<reportElement mode="Transparent" x="375" y="3" width="80" height="20" backcolor="#FFFFFF" uuid="300ec172-c596-42ee-bed0-5b59af2e7216"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
@@ -282,7 +273,7 @@ $P{seccion}.intValue()==5?"Otros": "*"
 					<bottomPen lineColor="#9999FF"/>
 					<rightPen lineColor="#9999FF"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial Black" size="10"/>
 				</textElement>
 				<text><![CDATA[IMPORTE]]></text>
@@ -301,6 +292,34 @@ $P{seccion}.intValue()==5?"Otros": "*"
 				</textElement>
 				<text><![CDATA[CLIENTE]]></text>
 			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="454" y="3" width="46" height="20" backcolor="#FFFFFF" uuid="f29b6cb8-f268-4186-891e-e8f4e1c767aa"/>
+				<box>
+					<pen lineColor="#9999FF"/>
+					<topPen lineColor="#9999FF"/>
+					<leftPen lineColor="#9999FF"/>
+					<bottomPen lineColor="#9999FF"/>
+					<rightPen lineColor="#9999FF"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="10"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="88" y="4" width="43" height="20" backcolor="#FFFFFF" uuid="a8cbace3-bc90-48ab-be35-21fa9f84c086"/>
+				<box>
+					<pen lineColor="#9999FF"/>
+					<topPen lineColor="#9999FF"/>
+					<leftPen lineColor="#9999FF"/>
+					<bottomPen lineColor="#9999FF"/>
+					<rightPen lineColor="#9999FF"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="10"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -312,27 +331,37 @@ $P{seccion}.intValue()==5?"Otros": "*"
 			</rectangle>
 			<textField>
 				<reportElement x="89" y="6" width="43" height="18" uuid="5f6230dc-03c4-4d5e-b4b2-1b1bccbd36fb"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{idIncidencia}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="131" y="6" width="205" height="18" uuid="c8c91920-0562-4915-ac77-df11f13ccef4"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="131" y="6" width="175" height="18" uuid="c8c91920-0562-4915-ac77-df11f13ccef4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="336" y="6" width="66" height="18" uuid="2492d7be-ff29-44a3-81a8-0726f5d93a44"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="306" y="6" width="66" height="18" uuid="2492d7be-ff29-44a3-81a8-0726f5d93a44"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{seccion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="402" y="6" width="96" height="18" uuid="c5d81223-cc9a-4537-b294-f305e5e689fc"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="375" y="6" width="80" height="18" uuid="c5d81223-cc9a-4537-b294-f305e5e689fc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="499" y="6" width="55" height="18" uuid="c9d52df5-04f9-42be-ae0c-271d33fb5e3f"/>
-				<textElement verticalAlignment="Middle"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{IMPORTE}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -341,6 +370,13 @@ $P{seccion}.intValue()==5?"Otros": "*"
 					<font fontName="Berlin Sans FB Demi" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="454" y="6" width="46" height="18" uuid="43d29133-aa6a-4715-89ae-18185275fc83"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -372,18 +408,25 @@ $P{seccion}.intValue()==5?"Otros": "*"
 	<summary>
 		<band height="42" splitType="Stretch">
 			<textField>
-				<reportElement x="482" y="10" width="50" height="20" uuid="4b616559-dd83-41e1-b156-8527eeda988c"/>
+				<reportElement x="482" y="10" width="46" height="20" uuid="4b616559-dd83-41e1-b156-8527eeda988c"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement isPrintRepeatedValues="false" x="403" y="10" width="79" height="20" uuid="1c837b45-2f4f-4b51-899b-d883914cb2bf"/>
+				<reportElement mode="Transparent" x="436" y="10" width="46" height="20" backcolor="#FFFFFF" uuid="3b0ecd34-9d1a-45c9-84ec-4f9a42e90d54"/>
+				<box>
+					<pen lineColor="#9999FF"/>
+					<topPen lineColor="#9999FF"/>
+					<leftPen lineColor="#9999FF"/>
+					<bottomPen lineColor="#9999FF"/>
+					<rightPen lineColor="#9999FF"/>
+				</box>
 				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font fontName="Arial Black" size="10"/>
 				</textElement>
-				<text><![CDATA[Total:]]></text>
+				<text><![CDATA[TOTAL:]]></text>
 			</staticText>
 		</band>
 	</summary>
