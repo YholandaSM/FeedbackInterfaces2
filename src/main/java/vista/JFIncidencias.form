@@ -265,7 +265,7 @@
     <Component class="javax.swing.JButton" name="jButtonPdf">
       <Properties>
         <Property name="text" type="java.lang.String" value="Informe"/>
-        <Property name="toolTipText" type="java.lang.String" value="Genera un informe con las incidencias de la tabla"/>
+        <Property name="toolTipText" type="java.lang.String" value="Genera un informe con la lista de  incidencias de la tabla"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
@@ -292,7 +292,7 @@
                 <Column editable="true" title="Estado" type="java.lang.String"/>
               </Table>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Lista de incidencias"/>
+            <Property name="toolTipText" type="java.lang.String" value="Lista de incidencias. Se puede modificar haciendo doble click en descripci&#xf3;n, secci&#xf3;n, importe o estado."/>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">

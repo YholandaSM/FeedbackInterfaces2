@@ -146,7 +146,7 @@ public class JFIncidencias extends javax.swing.JFrame {
         });
 
         jButtonPdf.setText("Informe");
-        jButtonPdf.setToolTipText("Genera un informe con las incidencias de la tabla");
+        jButtonPdf.setToolTipText("Genera un informe con la lista de  incidencias de la tabla");
         jButtonPdf.setEnabled(false);
         jButtonPdf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,7 +186,7 @@ public class JFIncidencias extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableIncidencias.setToolTipText("Lista de incidencias");
+        jTableIncidencias.setToolTipText("Lista de incidencias. Se puede modificar haciendo doble click en descripción, sección, importe o estado.");
         jScrollPane2.setViewportView(jTableIncidencias);
         if (jTableIncidencias.getColumnModel().getColumnCount() > 0) {
             jTableIncidencias.getColumnModel().getColumn(1).setResizable(false);

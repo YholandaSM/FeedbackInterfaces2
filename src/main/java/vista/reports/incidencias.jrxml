@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="92513b60-df37-4b43-8f29-8be634913128">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="44"/>
 	<parameter name="cliente" class="java.lang.Integer">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
@@ -365,7 +365,7 @@ $P{seccion}.intValue()==5?"Otros": "*"]]></textFieldExpression>
 				<textFieldExpression><![CDATA[$F{IMPORTE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="3" y="6" width="75" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="beb52e5d-5f93-4e8c-90c8-a6b9db8e5d3f"/>
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="3" y="6" width="86" height="18" forecolor="#000000" backcolor="#CCCCCC" uuid="beb52e5d-5f93-4e8c-90c8-a6b9db8e5d3f"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Berlin Sans FB Demi" size="10" isBold="true"/>
 				</textElement>
@@ -408,14 +408,14 @@ $P{seccion}.intValue()==5?"Otros": "*"]]></textFieldExpression>
 	<summary>
 		<band height="42" splitType="Stretch">
 			<textField>
-				<reportElement x="482" y="10" width="46" height="20" uuid="4b616559-dd83-41e1-b156-8527eeda988c"/>
+				<reportElement x="482" y="10" width="56" height="20" uuid="4b616559-dd83-41e1-b156-8527eeda988c"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="436" y="10" width="46" height="20" backcolor="#FFFFFF" uuid="3b0ecd34-9d1a-45c9-84ec-4f9a42e90d54"/>
+				<reportElement mode="Transparent" x="430" y="10" width="46" height="20" backcolor="#FFFFFF" uuid="3b0ecd34-9d1a-45c9-84ec-4f9a42e90d54"/>
 				<box>
 					<pen lineColor="#9999FF"/>
 					<topPen lineColor="#9999FF"/>
